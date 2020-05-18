@@ -42,7 +42,7 @@ public class TabularSolverService {
 		message("z = " + solution.getSolutionValue()).line().log();
 		for (SolutionVariable variable : solution.variables) {
 			message(variable.toString()).line().log();
-			message(format("%s = %f ", variable.name(), variable.value(solution.simplexTable))).line().log();
+			message(format("%s = %s ", variable.name(), variable.value(solution.simplexTable))).line().log();
 		}
 
 		return solution;

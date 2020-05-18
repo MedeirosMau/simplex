@@ -18,7 +18,7 @@ public class MinimizationProblemConverter {
 			for (Term term : objectiveFunction.getTerms()) {
 				newConvertedTerms.add(createTermInverted(term));
 			}
-			return new ObjectiveFunction(INVERTED_MINIMIZATION, newConvertedTerms, -1 * objectiveFunction.getValue());
+			return new ObjectiveFunction(INVERTED_MINIMIZATION, newConvertedTerms, objectiveFunction.getValue().negate());
 		}
 		throw new IllegalArgumentException("This is not a minimization problem");
 	}

@@ -1,5 +1,6 @@
 package br.helios.simplex.infrastructure.io;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import br.helios.simplex.domain.tabularsolution.TabularSolution;
@@ -15,7 +16,7 @@ public class OutputData {
 		this.timestamp = timestamp;
 	}
 
-	public static OutputData message(double[][] matrix) {
+	public static OutputData message(BigDecimal[][] matrix) {
 		StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < matrix.length; i++) {
 			builder.append("(" + i + ") ");
@@ -29,7 +30,7 @@ public class OutputData {
 
 	public static OutputData message(TabularSolution tabularSolution) {
 		StringBuilder builder = new StringBuilder();
-		double[][] simplexTable = tabularSolution.simplexTable;
+		BigDecimal[][] simplexTable = tabularSolution.simplexTable;
 		for (int i = 0; i < simplexTable.length; i++) {
 			builder.append("(" + i + ") ");
 			if (i == 0) {

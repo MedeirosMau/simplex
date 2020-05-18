@@ -2,6 +2,8 @@ package br.helios.simplex.domain.artificialproblem;
 
 import static br.helios.simplex.domain.problem.Operator.EQUAL;
 import static br.helios.simplex.domain.problem.Term.createTerm;
+import static java.math.BigDecimal.ONE;
+import static java.math.BigDecimal.ZERO;
 
 import java.util.List;
 
@@ -28,8 +30,8 @@ class LessEqualProcessor implements ConstraintProcessor {
 	private void createNewSlackVariable(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint originalConstraint, Variables variables) {
 		Constraint newConstraint = new Constraint(originalConstraint, EQUAL);
 		Variable newVariable = createVariableService.createSlackVariable(variables, newConstraint);
-		newObjectiveFunction.addTerm(createTerm(0, newVariable));
-		newConstraint.addTerm(Term.createTerm(1, newVariable));
+		newObjectiveFunction.addTerm(createTerm(ZERO, newVariable));
+		newConstraint.addTerm(Term.createTerm(ONE, newVariable));
 		newConstraints.add(newConstraint);
 	}
 }

@@ -1,5 +1,6 @@
 package br.helios.simplex.domain.problem;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class ConstraintTestBuilder {
@@ -7,7 +8,7 @@ public class ConstraintTestBuilder {
 	private int order;
 	private List<Term> terms;
 	private Operator operator;
-	private double constraintValue;
+	private BigDecimal constraintValue;
 
 	private ConstraintTestBuilder(Operator operator) {
 		this.operator = operator;
@@ -27,7 +28,7 @@ public class ConstraintTestBuilder {
 		return this;
 	}
 
-	public ConstraintTestBuilder value(double constraintValue) {
+	public ConstraintTestBuilder value(BigDecimal constraintValue) {
 		this.constraintValue = constraintValue;
 		return this;
 	}

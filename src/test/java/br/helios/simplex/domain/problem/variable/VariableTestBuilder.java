@@ -5,6 +5,7 @@ import static br.helios.simplex.domain.problem.variable.Variable.UNDEFINED_ID;
 import static br.helios.simplex.domain.problem.variable.VariableType.ARTIFICIAL;
 import static br.helios.simplex.domain.problem.variable.VariableType.ORIGINAL;
 import static br.helios.simplex.domain.problem.variable.VariableType.SLACK;
+import static java.math.BigDecimal.ZERO;
 
 import java.util.Collections;
 
@@ -12,7 +13,7 @@ import br.helios.simplex.domain.problem.Constraint;
 
 public class VariableTestBuilder {
 
-	private static final Constraint CONSTRAINT = new Constraint(0, Collections.emptyList(), EQUAL, 0);
+	private static final Constraint CONSTRAINT = new Constraint(0, Collections.emptyList(), EQUAL, ZERO);
 
 	private String name;
 	private VariableType type;

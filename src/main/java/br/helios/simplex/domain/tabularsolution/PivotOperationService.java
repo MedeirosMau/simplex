@@ -3,7 +3,10 @@ package br.helios.simplex.domain.tabularsolution;
 import static br.helios.simplex.domain.tabularsolution.SolutionVariable.createBasicVariable;
 import static br.helios.simplex.domain.tabularsolution.SolutionVariable.createNonBasicVariable;
 import static br.helios.simplex.infrastructure.io.OutputData.message;
+import static java.math.BigDecimal.ZERO;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,31 +35,33 @@ public class PivotOperationService {
 			}
 		}
 
-		double[][] previousSimplexTable = previousSolution.simplexTable;
-		double[][] newSimplexTable = previousSolution.copySimplexTable();
+		BigDecimal[][] previousSimplexTable = previousSolution.simplexTable;
+		BigDecimal[][] newSimplexTable = previousSolution.copySimplexTable();
 
 		// Update pivot line by pivot element
 
 		int pivotColumnIndex = basicVariableCandidate.index;
 		int pivotLineIndex = nonBasicVariableCandidate.tableLine;
-		double pivotValue = previousSimplexTable[pivotLineIndex][pivotColumnIndex];
+		BigDecimal pivotValue = previousSimplexTable[pivotLineIndex][pivotColumnIndex];
 
 		for (int j = 0; j < newSimplexTable[pivotLineIndex].length; j++) {
-			newSimplexTable[pivotLineIndex][j] = newSimplexTable[pivotLineIndex][j] / pivotValue;
+			if (newSimplexTable[pivotLineIndex][j].signum() != 0) {
+				newSimplexTable[pivotLineIndex][j] = newSimplexTable[pivotLineIndex][j].divide(pivotValue, MathContext.DECIMAL32);
+			}
 		}
 
 		// Other pivot column values must be zero
 
 		for (int i = 0; i < newSimplexTable.length; i++) {
 			if (i != pivotLineIndex) {
-				double pivotColumnValue = newSimplexTable[i][pivotColumnIndex];
+				BigDecimal pivotColumnValue = newSimplexTable[i][pivotColumnIndex];
 				// message(format("i: %d, value: %f", i, pivotColumnValue)).line().log();
-				if (pivotColumnValue != 0) {
-					double normalizer = (-1) * pivotColumnValue;
+				if (pivotColumnValue.compareTo(ZERO) != 0) {
+					BigDecimal normalizer = pivotColumnValue.negate();
 					// message(format(", normalizer: %f", normalizer)).line().log();
 					for (int j = 0; j < newSimplexTable[i].length; j++) {
-						double value = newSimplexTable[pivotLineIndex][j];
-						newSimplexTable[i][j] = (normalizer * value) + newSimplexTable[i][j];
+						BigDecimal value = newSimplexTable[pivotLineIndex][j];
+						newSimplexTable[i][j] = (normalizer.multiply(value, MathContext.DECIMAL32)).add(newSimplexTable[i][j], MathContext.DECIMAL32);
 					}
 				}
 			}

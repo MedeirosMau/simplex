@@ -1,7 +1,10 @@
 package br.helios.simplex.application;
 
 import static br.helios.simplex.domain.problem.TabularSolutionTestHelper.assertSolution;
+import static java.math.BigDecimal.ZERO;
 import static java.util.Arrays.asList;
+
+import java.math.BigDecimal;
 
 import org.junit.Test;
 
@@ -17,7 +20,7 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 		Problem problem = ProblemInstanceTestBuilder.buildSimpleProblemB();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
-		assertSolution(36d, asList(2d, 6d), solution, problem.variables);
+		assertSolution(new BigDecimal("36.00000"), asList(new BigDecimal("2.00000"), new BigDecimal("6.00000")), solution, problem.variables);
 	}
 
 	@Test
@@ -25,7 +28,7 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 		Problem problem = ProblemInstanceTestBuilder.buildSimpleProblemC();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
-		assertSolution(28d, asList(5d, 6d), solution, problem.variables);
+		assertSolution(new BigDecimal("28.00000"), asList(new BigDecimal("5.00000"), new BigDecimal("6.00000")), solution, problem.variables);
 	}
 
 	@Test
@@ -34,7 +37,7 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 		Problem problem = ProblemInstanceTestBuilder.buildSimpleMinimizationProblemA();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
-		assertSolution(-8d, asList(4d, 0d), solution, problem.variables);
+		assertSolution(new BigDecimal("-8.00000"), asList(new BigDecimal("4.00000"), ZERO), solution, problem.variables);
 	}
 
 	@Test
@@ -43,7 +46,7 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 		Problem problem = ProblemInstanceTestBuilder.buildSimpleMinimizationProblemB();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
-		assertSolution(-11.333333333333334d, solution);
+		assertSolution(new BigDecimal("-11.33333"), solution);
 	}
 
 	@Test
@@ -52,7 +55,7 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 		Problem problem = ProblemInstanceTestBuilder.buildProblemWithEquityAndGreaterEqualConstraints();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
-		assertSolution(-11.333333333333334d, solution);
+		assertSolution(new BigDecimal("-11.33333"), solution);
 	}
 
 }

@@ -1,5 +1,8 @@
 package br.helios.simplex.domain.problem;
 
+import static java.math.BigDecimal.ZERO;
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,13 +12,13 @@ public class ObjectiveFunction {
 
 	private final Objective objective;
 	private final List<Term> terms;
-	private final double value;
+	private final BigDecimal value;
 
 	public ObjectiveFunction(Objective objective, List<Term> terms) {
-		this(objective, terms, 0);
+		this(objective, terms, ZERO);
 	}
 
-	public ObjectiveFunction(Objective objective, List<Term> terms, double value) {
+	public ObjectiveFunction(Objective objective, List<Term> terms, BigDecimal value) {
 		this.objective = objective;
 		this.terms = terms;
 		this.value = value;
@@ -52,7 +55,7 @@ public class ObjectiveFunction {
 		return null;
 	}
 
-	public double getValue() {
+	public BigDecimal getValue() {
 		return value;
 	}
 

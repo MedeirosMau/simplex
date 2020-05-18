@@ -5,6 +5,7 @@ import static br.helios.simplex.domain.problem.Operator.EQUAL;
 import static br.helios.simplex.domain.problem.Term.createBigMTerm;
 import static br.helios.simplex.domain.problem.Term.createNegativeBigMTerm;
 import static br.helios.simplex.domain.problem.Term.createTerm;
+import static java.math.BigDecimal.ONE;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ class EqualProcessor implements ConstraintProcessor {
 		Constraint newConstraint = new Constraint(originalConstraint, EQUAL);
 		Variable newArtificialVariable = createVariableService.createArtificialVariable(variables, newConstraint);
 		newObjectiveFunction.addTerm(getNewObjectiveFunctionTerm(newObjectiveFunction.getObjective(), newArtificialVariable));
-		newConstraint.addTerm(createTerm(1, newArtificialVariable));
+		newConstraint.addTerm(createTerm(ONE, newArtificialVariable));
 		newConstraints.add(newConstraint);
 	}
 

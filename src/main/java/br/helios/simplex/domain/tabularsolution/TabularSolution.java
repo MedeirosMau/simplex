@@ -1,7 +1,10 @@
 package br.helios.simplex.domain.tabularsolution;
 
 import static br.helios.simplex.domain.problem.Objective.INVERTED_MINIMIZATION;
+import static java.math.BigDecimal.ZERO;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.Arrays;
 import java.util.List;
 
@@ -9,11 +12,11 @@ import br.helios.simplex.domain.problem.Objective;
 
 public class TabularSolution {
 
-	public final double[][] simplexTable;
+	public final BigDecimal[][] simplexTable;
 	public final List<SolutionVariable> variables;
 	public final Objective objective;
 
-	public TabularSolution(double[][] simplexTable, List<SolutionVariable> variables, Objective objective) {
+	public TabularSolution(BigDecimal[][] simplexTable, List<SolutionVariable> variables, Objective objective) {
 		this.simplexTable = simplexTable;
 		this.variables = variables;
 		this.objective = objective;
@@ -24,15 +27,15 @@ public class TabularSolution {
 
 		for (SolutionVariable solutionVariable : variables) {
 			if (!solutionVariable.isBasic) {
-				double variableCoefficient = simplexTable[0][solutionVariable.index];
+				BigDecimal variableCoefficient = simplexTable[0][solutionVariable.index];
 
-				if (variableCoefficient < 0) {
+				if (variableCoefficient.compareTo(ZERO) < 0) {
 					if (candidateVariable == null) {
 						candidateVariable = solutionVariable;
 					} else {
-						double candidateCoefficient = simplexTable[0][candidateVariable.index];
+						BigDecimal candidateCoefficient = simplexTable[0][candidateVariable.index];
 
-						if (variableCoefficient < candidateCoefficient) {
+						if (variableCoefficient.compareTo(candidateCoefficient) < 0) {
 							candidateVariable = solutionVariable;
 						}
 					}
@@ -49,17 +52,17 @@ public class TabularSolution {
 
 	public SolutionVariable getNonBasicVariableCandidate(SolutionVariable basicCandidateVariable) {
 		SolutionVariable candidateVariable = null;
-		double lowestValue = 0;
+		BigDecimal lowestValue = ZERO;
 		int pivotColum = basicCandidateVariable.index;
 
 		for (int i = 1; i < simplexTable.length; i++) {
 			SolutionVariable variable = getVariableByTableLine(i);
-			if (variable.isBasic) {
-				double value = simplexTable[i][simplexTable[i].length - 1] / simplexTable[i][pivotColum];
-				if (candidateVariable == null || value < lowestValue) {
+			if (variable.isBasic && simplexTable[i][pivotColum].compareTo(ZERO) > 0) {
+				BigDecimal value = simplexTable[i][simplexTable[i].length - 1].divide(simplexTable[i][pivotColum], MathContext.DECIMAL32);
+				if (candidateVariable == null || value.compareTo(lowestValue) < 0) {
 					lowestValue = value;
 					candidateVariable = variable;
-				} else if (value == lowestValue && variable.index < candidateVariable.index) {
+				} else if (value.compareTo(lowestValue) == 0 && variable.index < candidateVariable.index) {
 					lowestValue = value;
 					candidateVariable = variable;
 				}
@@ -80,25 +83,25 @@ public class TabularSolution {
 
 	public boolean isBestSolution() {
 		for (int j = 0; j < simplexTable[0].length; j++) {
-			if (simplexTable[0][j] < 0) {
+			if (simplexTable[0][j].compareTo(ZERO) < 0) {
 				return false;
 			}
 		}
 		return true;
 	}
 
-	public double[][] copySimplexTable() {
-		final double[][] copy = new double[simplexTable.length][];
+	public BigDecimal[][] copySimplexTable() {
+		final BigDecimal[][] copy = new BigDecimal[simplexTable.length][];
 		for (int i = 0; i < simplexTable.length; i++) {
 			copy[i] = Arrays.copyOf(simplexTable[i], simplexTable[i].length);
 		}
 		return copy;
 	}
 
-	public double getSolutionValue() {
-		double value = simplexTable[0][simplexTable[0].length - 1];
+	public BigDecimal getSolutionValue() {
+		BigDecimal value = simplexTable[0][simplexTable[0].length - 1];
 		if (objective == INVERTED_MINIMIZATION) {
-			return -1 * value;
+			return value.negate();
 		}
 		return value;
 

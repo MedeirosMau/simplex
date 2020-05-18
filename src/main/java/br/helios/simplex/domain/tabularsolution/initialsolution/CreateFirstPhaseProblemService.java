@@ -2,7 +2,10 @@ package br.helios.simplex.domain.tabularsolution.initialsolution;
 
 import static br.helios.simplex.domain.problem.Objective.MINIMIZATION;
 import static br.helios.simplex.domain.problem.Term.createTerm;
+import static java.math.BigDecimal.ZERO;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,21 +68,21 @@ class CreateFirstPhaseProblemService {
 		List<Term> objectiveFunctionTerms = new ArrayList<>();
 
 		for (Variable variable : artificialProblem.variables.getVariables()) {
-			double coefficient = 0;
+			BigDecimal coefficient = ZERO;
 			if (variableTerms.containsKey(variable)) {
 				for (Term term : variableTerms.get(variable)) {
-					coefficient += term.getCoefficient();
+					coefficient = coefficient.add(term.getCoefficient(), MathContext.DECIMAL32);
 				}
 			}
-			objectiveFunctionTerms.add(createTerm(-1 * coefficient, variable));
+			objectiveFunctionTerms.add(createTerm(coefficient.negate(), variable));
 		}
 
 		// Objective function value
 
-		double objectiveFunctionValue = 0;
+		BigDecimal objectiveFunctionValue = ZERO;
 
 		for (Constraint constraint : constraintsWithArtificialTerms) {
-			objectiveFunctionValue += constraint.getConstraintValue();
+			objectiveFunctionValue = objectiveFunctionValue.add(constraint.getConstraintValue(), MathContext.DECIMAL32);
 		}
 
 		ObjectiveFunction objectiveFunction = new ObjectiveFunction(MINIMIZATION, objectiveFunctionTerms, objectiveFunctionValue);

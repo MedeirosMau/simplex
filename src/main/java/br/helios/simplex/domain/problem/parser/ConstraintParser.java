@@ -6,6 +6,7 @@ import static br.helios.simplex.infrastructure.util.StringUtil.COMA;
 import static br.helios.simplex.infrastructure.util.StringUtil.DOT;
 import static br.helios.simplex.infrastructure.util.StringUtil.removeEmptyValues;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import br.helios.simplex.domain.problem.Constraint;
@@ -24,7 +25,7 @@ public class ConstraintParser {
 		String inputNormalized = removeEmptyValues(inputData).replace(COMA, DOT);
 		Operator operator = getOperatorFrom(inputNormalized);
 		List<Term> terms = termParser.parse(getTerms(inputNormalized, operator));
-		Double constraintValue = getConstraintValue(inputNormalized);
+		BigDecimal constraintValue = getConstraintValue(inputNormalized);
 		return new Constraint(constraintOrder, terms, operator, constraintValue);
 	}
 
@@ -36,9 +37,9 @@ public class ConstraintParser {
 		return data.substring(0, lastIndex);
 	}
 
-	private Double getConstraintValue(String data) {
+	private BigDecimal getConstraintValue(String data) {
 		int initialIndex = data.indexOf(EQUAL.operator()) + 1;
 		String value = data.substring(initialIndex);
-		return new Double(value);
+		return new BigDecimal(value);
 	}
 }

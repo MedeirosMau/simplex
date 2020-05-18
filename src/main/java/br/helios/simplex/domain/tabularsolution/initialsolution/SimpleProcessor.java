@@ -3,6 +3,7 @@ package br.helios.simplex.domain.tabularsolution.initialsolution;
 import static br.helios.simplex.domain.tabularsolution.SolutionVariable.createBasicVariable;
 import static br.helios.simplex.domain.tabularsolution.SolutionVariable.createNonBasicVariable;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ class SimpleProcessor implements InitialSolutionProcessor {
 
 	@Override
 	public TabularSolution createSolution(Problem artificialProblem) {
-		double[][] simplexTable = initialSimplexTableFactory.create(artificialProblem);
+		BigDecimal[][] simplexTable = initialSimplexTableFactory.create(artificialProblem);
 		List<Variable> problemVariables = artificialProblem.variables.getVariables();
 		List<SolutionVariable> solutionVariables = new ArrayList<>(problemVariables.size());
 

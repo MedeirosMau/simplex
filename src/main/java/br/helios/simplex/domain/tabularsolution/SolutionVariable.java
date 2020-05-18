@@ -2,13 +2,16 @@ package br.helios.simplex.domain.tabularsolution;
 
 import static br.helios.simplex.infrastructure.util.StringUtil.toShortString;
 import static java.lang.String.format;
+import static java.math.BigDecimal.ZERO;
+
+import java.math.BigDecimal;
 
 import br.helios.simplex.domain.problem.variable.Variable;
 
 public class SolutionVariable {
 
 	public static final int NON_BASIC_LINE = -1;
-	private static final double NON_BASIC_VALUE = 0;
+	private static final BigDecimal NON_BASIC_VALUE = ZERO;
 
 	public final Variable variable;
 	public final int index;
@@ -39,7 +42,7 @@ public class SolutionVariable {
 		return variable.name;
 	}
 
-	public double value(double[][] simplexTable) {
+	public BigDecimal value(BigDecimal[][] simplexTable) {
 		if (isBasic) {
 			return simplexTable[tableLine][simplexTable[tableLine].length - 1];
 		}

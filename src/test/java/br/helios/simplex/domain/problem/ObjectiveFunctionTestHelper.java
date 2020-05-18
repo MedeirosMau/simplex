@@ -4,6 +4,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 
+import java.math.BigDecimal;
+
 import br.helios.simplex.domain.problem.parser.ObjectiveFunctionParser;
 import br.helios.simplex.domain.problem.variable.Variable;
 import br.helios.simplex.domain.problem.variable.Variables;
@@ -15,12 +17,12 @@ public class ObjectiveFunctionTestHelper {
 		assertEquals(expectedObjective, objectiveFunction.getObjective());
 	}
 
-	public static void assertTermCreated(String inputData, String variableName, double coefficient, Variables variables) {
+	public static void assertTermCreated(String inputData, String variableName, BigDecimal coefficient, Variables variables) {
 		ObjectiveFunction objectiveFunction = parse(inputData);
 		assertTermCreated(objectiveFunction, variableName, coefficient, variables);
 	}
 
-	public static void assertTermCreated(ObjectiveFunction objectiveFunction, String variableName, double coefficient, Variables variables) {
+	public static void assertTermCreated(ObjectiveFunction objectiveFunction, String variableName, BigDecimal coefficient, Variables variables) {
 		Variable variable = variables.getByName(variableName);
 		Term term = objectiveFunction.getTermByVariable(variable);
 		assertThat(term.getCoefficient(), is(coefficient));

@@ -8,7 +8,9 @@ import static br.helios.simplex.infrastructure.util.StringUtil.NEGATIVE;
 import static br.helios.simplex.infrastructure.util.StringUtil.POSITIVE;
 import static java.lang.Character.isDigit;
 import static java.lang.String.valueOf;
+import static java.math.BigDecimal.ONE;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,19 +67,18 @@ class TermParser {
 		return createTerm(coefficientValue(coefficientBuffer.toString()), variable);
 	}
 
-	private Double coefficientValue(String value) {
+	private BigDecimal coefficientValue(String value) {
 		if (value.length() > 0) {
 			if (value.length() == 1) {
 				if (value.equals("+")) {
-					return new Double(1);
+					return ONE;
 				} else if (value.equals("-")) {
-					return new Double(-1);
+					return ONE.negate();
 				}
 			}
 			String valueNormalized = value.replace("+", "").trim();
-			return new Double(valueNormalized);
+			return new BigDecimal(valueNormalized);
 		}
-		return new Double(1);
+		return ONE;
 	}
-
 }

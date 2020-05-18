@@ -1,5 +1,8 @@
 package br.helios.simplex.domain.tabularsolution.initialsolution;
 
+import static java.math.BigDecimal.ZERO;
+
+import java.math.BigDecimal;
 import java.util.List;
 
 import br.helios.simplex.domain.problem.Constraint;
@@ -10,18 +13,18 @@ import br.helios.simplex.domain.problem.variable.Variable;
 
 class InitialSimplexTableFactory {
 
-	public double[][] create(Problem artificialProblem) {
+	public BigDecimal[][] create(Problem artificialProblem) {
 		ObjectiveFunction objectiveFunction = artificialProblem.getObjectiveFunction();
 		int constraintsNum = artificialProblem.getConstraints().size();
 		Variable[] variables = artificialProblem.variables.toArray();
 
-		double[][] table = new double[constraintsNum + 1][variables.length + 1];
+		BigDecimal[][] table = new BigDecimal[constraintsNum + 1][variables.length + 1];
 
 		// Insert inverted objective function coefficients
 
 		for (int j = 0; j < variables.length; j++) {
-			double variableCoefficient = getCoefficientFromVariable(objectiveFunction, variables[j]);
-			table[0][j] = -1 * variableCoefficient;
+			BigDecimal variableCoefficient = getCoefficientFromVariable(objectiveFunction, variables[j]);
+			table[0][j] = variableCoefficient.negate();
 		}
 
 		table[0][table[0].length - 1] = artificialProblem.getObjectiveFunction().getValue();
@@ -33,7 +36,7 @@ class InitialSimplexTableFactory {
 		for (int i = 0; i < constraints.size(); i++) {
 			Constraint constraint = constraints.get(i);
 			for (int j = 0; j < variables.length; j++) {
-				double coefficientValue = getCoefficientFromVariable(constraint, variables[j]);
+				BigDecimal coefficientValue = getCoefficientFromVariable(constraint, variables[j]);
 				table[i + 1][j] = coefficientValue;
 			}
 		}
@@ -47,18 +50,18 @@ class InitialSimplexTableFactory {
 		return table;
 	}
 
-	private double getCoefficientFromVariable(Constraint constraint, Variable variable) {
+	private BigDecimal getCoefficientFromVariable(Constraint constraint, Variable variable) {
 		return getCoefficientFromTerm(constraint.getTermByVariable(variable));
 	}
 
-	private double getCoefficientFromVariable(ObjectiveFunction objectiveFunction, Variable variable) {
+	private BigDecimal getCoefficientFromVariable(ObjectiveFunction objectiveFunction, Variable variable) {
 		return getCoefficientFromTerm(objectiveFunction.getTermByVariable(variable));
 	}
 
-	private double getCoefficientFromTerm(Term term) {
+	private BigDecimal getCoefficientFromTerm(Term term) {
 		if (term != null) {
 			return term.getCoefficient();
 		}
-		return 0;
+		return ZERO;
 	}
 }

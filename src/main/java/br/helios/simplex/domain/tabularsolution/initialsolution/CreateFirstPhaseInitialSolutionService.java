@@ -2,7 +2,9 @@ package br.helios.simplex.domain.tabularsolution.initialsolution;
 
 import static br.helios.simplex.domain.tabularsolution.SolutionVariable.createBasicVariable;
 import static br.helios.simplex.domain.tabularsolution.SolutionVariable.createNonBasicVariable;
+import static java.math.BigDecimal.ZERO;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class CreateFirstPhaseInitialSolutionService implements InitialSolutionPr
 
 	@Override
 	public TabularSolution createSolution(Problem artificialProblem) {
-		double[][] simplexTable = initialSimplexTableFactory.create(artificialProblem);
+		BigDecimal[][] simplexTable = initialSimplexTableFactory.create(artificialProblem);
 		List<Variable> problemVariables = artificialProblem.variables.getVariables();
 		List<SolutionVariable> solutionVariables = new ArrayList<>(problemVariables.size());
 
@@ -36,7 +38,7 @@ public class CreateFirstPhaseInitialSolutionService implements InitialSolutionPr
 
 	private SolutionVariable createSolutionVariable(Variable variable, Problem artificialProblem) {
 		Term term = artificialProblem.getObjectiveFunction().getTermByVariable(variable);
-		if (term.getCoefficient() != 0) {
+		if (term.getCoefficient().compareTo(ZERO) != 0) {
 			return createNonBasicVariable(variable);
 		} else {
 			return createBasicVariable(variable, variable.constraintOrder);

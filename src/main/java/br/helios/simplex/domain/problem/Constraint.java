@@ -1,5 +1,6 @@
 package br.helios.simplex.domain.problem;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,9 +11,9 @@ public class Constraint {
 	public final int order;
 	private final List<Term> terms;
 	private final Operator operator;
-	private final double constraintValue;
+	private final BigDecimal constraintValue;
 
-	public Constraint(int order, List<Term> terms, Operator operator, double constraintValue) {
+	public Constraint(int order, List<Term> terms, Operator operator, BigDecimal constraintValue) {
 		this.order = order;
 		this.terms = terms;
 		this.operator = operator;
@@ -42,7 +43,7 @@ public class Constraint {
 		return operator;
 	}
 
-	public double getConstraintValue() {
+	public BigDecimal getConstraintValue() {
 		return constraintValue;
 	}
 
@@ -71,7 +72,7 @@ public class Constraint {
 		for (Term term : terms) {
 			builder.append(term.toString() + " ");
 		}
-		builder.append(operator.operator() + " " + constraintValue);
+		builder.append(operator.operator() + " " + constraintValue.toString());
 		return builder.toString();
 	}
 }

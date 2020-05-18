@@ -5,6 +5,7 @@ import static br.helios.simplex.domain.problem.Operator.EQUAL;
 import static br.helios.simplex.domain.problem.Term.createBigMTerm;
 import static br.helios.simplex.domain.problem.Term.createNegativeBigMTerm;
 import static br.helios.simplex.domain.problem.Term.createTerm;
+import static java.math.BigDecimal.ONE;
 
 import java.util.List;
 
@@ -35,13 +36,13 @@ class GreaterEqualProcessor implements ConstraintProcessor {
 	private void createNewSlackVariable(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint newConstraint, Variables variables) {
 		Variable newSlackVariable = createVariableService.createSlackVariable(variables, newConstraint);
 		// newObjectiveFunction.addTerm(createTerm(0, newSlackVariable));
-		newConstraint.addTerm(createTerm(-1, newSlackVariable));
+		newConstraint.addTerm(createTerm(ONE.negate(), newSlackVariable));
 	}
 
 	private void createNewArtificialVariable(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint newConstraint, Variables variables) {
 		Variable newArtificialVariable = createVariableService.createArtificialVariable(variables, newConstraint);
 		newObjectiveFunction.addTerm(getNewObjectiveFunctionTerm(newObjectiveFunction.getObjective(), newArtificialVariable));
-		newConstraint.addTerm(createTerm(1, newArtificialVariable));
+		newConstraint.addTerm(createTerm(ONE, newArtificialVariable));
 	}
 
 	private Term getNewObjectiveFunctionTerm(Objective objective, Variable newArtificialVariable) {
