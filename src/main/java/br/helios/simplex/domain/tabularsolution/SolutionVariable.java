@@ -3,7 +3,7 @@ package br.helios.simplex.domain.tabularsolution;
 import static br.helios.simplex.infrastructure.util.StringUtil.toShortString;
 import static java.lang.String.format;
 
-import br.helios.simplex.domain.problem.Variable;
+import br.helios.simplex.domain.problem.variable.Variable;
 
 public class SolutionVariable {
 

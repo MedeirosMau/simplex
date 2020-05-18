@@ -12,6 +12,7 @@ import br.helios.simplex.domain.problem.Constraint;
 import br.helios.simplex.domain.problem.ObjectiveFunction;
 import br.helios.simplex.domain.problem.Operator;
 import br.helios.simplex.domain.problem.Problem;
+import br.helios.simplex.domain.problem.variable.Variables;
 
 public class CreateArtificialProblemService {
 
@@ -29,19 +30,20 @@ public class CreateArtificialProblemService {
 
 	public Problem create(Problem originalProblem) {
 		ObjectiveFunction newObjectiveFunction = new ObjectiveFunction(originalProblem.getObjectiveFunction());
+		Variables newVariables = originalProblem.variables.clone();
 		List<Constraint> newConstraints = new ArrayList<>();
 
 		for (int i = 0; i < originalProblem.getConstraints().size(); i++) {
 			Constraint originalConstraint = originalProblem.getConstraints().get(i);
 			ConstraintProcessor constraintProcessor = getConstraintProcessor(originalConstraint.getOperator());
-			constraintProcessor.createConstraint(newObjectiveFunction, newConstraints, originalConstraint);
+			constraintProcessor.createConstraint(newObjectiveFunction, newConstraints, originalConstraint, newVariables);
 		}
 
 		if (originalProblem.getObjective() == MINIMIZATION) {
 			newObjectiveFunction = minimizationProblemConverter.convert(newObjectiveFunction);
 		}
 
-		return new Problem(newObjectiveFunction, newConstraints);
+		return new Problem(newObjectiveFunction, newConstraints, newVariables);
 	}
 
 	private ConstraintProcessor getConstraintProcessor(Operator constraintOperator) {

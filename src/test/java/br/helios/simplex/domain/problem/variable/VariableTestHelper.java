@@ -1,8 +1,10 @@
-package br.helios.simplex.domain.problem;
+package br.helios.simplex.domain.problem.variable;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertTrue;
+
+import br.helios.simplex.domain.problem.variable.Variable;
 
 public class VariableTestHelper {
 

@@ -3,9 +3,11 @@ package br.helios.simplex.domain.problem;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.helios.simplex.domain.problem.variable.Variable;
+
 public class Constraint {
 
-	private final int order;
+	public final int order;
 	private final List<Term> terms;
 	private final Operator operator;
 	private final double constraintValue;
@@ -44,17 +46,18 @@ public class Constraint {
 		return constraintValue;
 	}
 
-	public List<Variable> getVariables() {
-		List<Variable> variables = new ArrayList<Variable>();
-		for (Term term : terms) {
-			variables.add(term.getVariable());
-		}
-		return variables;
-	}
-
 	public Term getTermByVariable(Variable variable) {
 		for (Term term : getTerms()) {
 			if (term.getVariable().id() == variable.id()) {
+				return term;
+			}
+		}
+		return null;
+	}
+
+	public Term getArtificialTerm() {
+		for (Term term : getTerms()) {
+			if (term.isArtificialWithNonZeroCoefficient()) {
 				return term;
 			}
 		}

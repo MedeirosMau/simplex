@@ -17,7 +17,7 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 		Problem problem = ProblemInstanceTestBuilder.buildSimpleProblemB();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
-		assertSolution(36d, asList(2d, 6d), solution);
+		assertSolution(36d, asList(2d, 6d), solution, problem.variables);
 	}
 
 	@Test
@@ -25,7 +25,7 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 		Problem problem = ProblemInstanceTestBuilder.buildSimpleProblemC();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
-		assertSolution(28d, asList(5d, 6d), solution);
+		assertSolution(28d, asList(5d, 6d), solution, problem.variables);
 	}
 
 	@Test
@@ -34,7 +34,7 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 		Problem problem = ProblemInstanceTestBuilder.buildSimpleMinimizationProblemA();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
-		assertSolution(-8d, asList(4d, 0d), solution);
+		assertSolution(-8d, asList(4d, 0d), solution, problem.variables);
 	}
 
 	@Test

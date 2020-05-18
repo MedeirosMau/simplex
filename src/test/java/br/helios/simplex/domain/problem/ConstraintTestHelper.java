@@ -1,11 +1,12 @@
 package br.helios.simplex.domain.problem;
 
-import static br.helios.simplex.domain.problem.Variables.getByName;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 
 import br.helios.simplex.domain.problem.parser.ConstraintParser;
+import br.helios.simplex.domain.problem.variable.Variable;
+import br.helios.simplex.domain.problem.variable.Variables;
 
 public class ConstraintTestHelper {
 
@@ -32,13 +33,13 @@ public class ConstraintTestHelper {
 		assertOperator(constraint, expectedOperator);
 	}
 
-	public static void assertTermCreated(String inputConstraint, String variableName, double coefficient) {
+	public static void assertTermCreated(String inputConstraint, String variableName, double coefficient, Variables variables) {
 		Constraint constraint = parse(inputConstraint);
-		assertTermCreated(constraint, variableName, coefficient);
+		assertTermCreated(constraint, variableName, coefficient, variables);
 	}
 
-	public static void assertTermCreated(Constraint constraint, String variableName, double coefficient) {
-		Variable variable = getByName(variableName);
+	public static void assertTermCreated(Constraint constraint, String variableName, double coefficient, Variables variables) {
+		Variable variable = variables.getByName(variableName);
 		Term term = constraint.getTermByVariable(variable);
 		assertThat(term.getCoefficient(), is(coefficient));
 	}

@@ -31,6 +31,9 @@ public class TabularSolverService {
 			message("# ITERATION " + iteration).line().log();
 			solution = pivotOperationService.pivot(solution);
 			message(solution).line().log();
+			if (iteration == 5) {
+				System.exit(0);
+			}
 		}
 
 		message("---------------------------").line().log();

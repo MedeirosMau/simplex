@@ -3,19 +3,28 @@ package br.helios.simplex.domain.problem;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.helios.simplex.domain.problem.variable.Variable;
+
 public class ObjectiveFunction {
 
 	private final Objective objective;
 	private final List<Term> terms;
+	private final double value;
 
 	public ObjectiveFunction(Objective objective, List<Term> terms) {
+		this(objective, terms, 0);
+	}
+
+	public ObjectiveFunction(Objective objective, List<Term> terms, double value) {
 		this.objective = objective;
 		this.terms = terms;
+		this.value = value;
 	}
 
 	public ObjectiveFunction(ObjectiveFunction anotherObjectiveFunction) {
 		this.objective = anotherObjectiveFunction.objective;
 		this.terms = new ArrayList<Term>(anotherObjectiveFunction.terms);
+		this.value = anotherObjectiveFunction.value;
 	}
 
 	public Objective getObjective() {
@@ -43,12 +52,17 @@ public class ObjectiveFunction {
 		return null;
 	}
 
-	public List<Variable> getVariables() {
-		List<Variable> variables = new ArrayList<Variable>();
-		for (Term term : terms) {
-			variables.add(term.getVariable());
+	public double getValue() {
+		return value;
+	}
+
+	public boolean hasBigMTerm() {
+		for (Term term : getTerms()) {
+			if (term.isBigM()) {
+				return true;
+			}
 		}
-		return variables;
+		return false;
 	}
 
 	@Override

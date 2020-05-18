@@ -2,8 +2,9 @@ package br.helios.simplex.domain.artificialproblem;
 
 import static br.helios.simplex.domain.problem.Objective.MAXIMIZATION;
 import static br.helios.simplex.domain.problem.Operator.EQUAL;
-import static br.helios.simplex.domain.problem.Variable.newArtificialVariable;
-import static br.helios.simplex.domain.problem.Variable.newSlackVariable;
+import static br.helios.simplex.domain.problem.Term.createBigMTerm;
+import static br.helios.simplex.domain.problem.Term.createNegativeBigMTerm;
+import static br.helios.simplex.domain.problem.Term.createTerm;
 
 import java.util.List;
 
@@ -11,36 +12,42 @@ import br.helios.simplex.domain.problem.Constraint;
 import br.helios.simplex.domain.problem.Objective;
 import br.helios.simplex.domain.problem.ObjectiveFunction;
 import br.helios.simplex.domain.problem.Term;
-import br.helios.simplex.domain.problem.Variable;
+import br.helios.simplex.domain.problem.variable.CreateVariableService;
+import br.helios.simplex.domain.problem.variable.Variable;
+import br.helios.simplex.domain.problem.variable.Variables;
 
 class GreaterEqualProcessor implements ConstraintProcessor {
 
+	private final CreateVariableService createVariableService;
+
+	public GreaterEqualProcessor() {
+		this.createVariableService = new CreateVariableService();
+	}
+
 	@Override
-	public void createConstraint(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint originalConstraint) {
+	public void createConstraint(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint originalConstraint, Variables variables) {
 		Constraint newConstraint = new Constraint(originalConstraint, EQUAL);
-		createNewSlackVariable(newObjectiveFunction, newConstraints, newConstraint);
-		createNewArtificialVariable(newObjectiveFunction, newConstraints, newConstraint);
-	}
-
-	private void createNewSlackVariable(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint newConstraint) {
-		Variable newSlackVariable = newSlackVariable();
-		newObjectiveFunction.addTerm(new Term(0, newSlackVariable));
-		newConstraint.addTerm(new Term(-1, newSlackVariable));
+		createNewSlackVariable(newObjectiveFunction, newConstraints, newConstraint, variables);
+		createNewArtificialVariable(newObjectiveFunction, newConstraints, newConstraint, variables);
 		newConstraints.add(newConstraint);
 	}
 
-	private void createNewArtificialVariable(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint newConstraint) {
-		Variable newArtificialVariable = newArtificialVariable();
+	private void createNewSlackVariable(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint newConstraint, Variables variables) {
+		Variable newSlackVariable = createVariableService.createSlackVariable(variables, newConstraint);
+		// newObjectiveFunction.addTerm(createTerm(0, newSlackVariable));
+		newConstraint.addTerm(createTerm(-1, newSlackVariable));
+	}
+
+	private void createNewArtificialVariable(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint newConstraint, Variables variables) {
+		Variable newArtificialVariable = createVariableService.createArtificialVariable(variables, newConstraint);
 		newObjectiveFunction.addTerm(getNewObjectiveFunctionTerm(newObjectiveFunction.getObjective(), newArtificialVariable));
-		newConstraint.addTerm(new Term(1, newArtificialVariable));
-		newConstraints.add(newConstraint);
+		newConstraint.addTerm(createTerm(1, newArtificialVariable));
 	}
 
 	private Term getNewObjectiveFunctionTerm(Objective objective, Variable newArtificialVariable) {
 		if (objective == MAXIMIZATION) {
-			return new Term(-1, newArtificialVariable);
-		} else {
-			return new Term(1, newArtificialVariable);
+			return createNegativeBigMTerm(newArtificialVariable);
 		}
+		return createBigMTerm(newArtificialVariable);
 	}
 }

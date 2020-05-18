@@ -2,6 +2,7 @@ package br.helios.simplex.domain.artificialproblem;
 
 import static br.helios.simplex.domain.problem.Objective.INVERTED_MINIMIZATION;
 import static br.helios.simplex.domain.problem.Objective.MINIMIZATION;
+import static br.helios.simplex.domain.problem.Term.createTermInverted;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,14 +16,10 @@ public class MinimizationProblemConverter {
 		if (objectiveFunction.getObjective() == MINIMIZATION) {
 			List<Term> newConvertedTerms = new ArrayList<>();
 			for (Term term : objectiveFunction.getTerms()) {
-				newConvertedTerms.add(convertTermForMinimization(term));
+				newConvertedTerms.add(createTermInverted(term));
 			}
-			return new ObjectiveFunction(INVERTED_MINIMIZATION, newConvertedTerms);
+			return new ObjectiveFunction(INVERTED_MINIMIZATION, newConvertedTerms, -1 * objectiveFunction.getValue());
 		}
 		throw new IllegalArgumentException("This is not a minimization problem");
-	}
-
-	public Term convertTermForMinimization(Term originalTerm) {
-		return new Term(-1 * originalTerm.getCoefficient(), originalTerm.getVariable());
 	}
 }

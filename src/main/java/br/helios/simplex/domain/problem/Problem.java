@@ -1,18 +1,19 @@
 package br.helios.simplex.domain.problem;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
+
+import br.helios.simplex.domain.problem.variable.Variables;
 
 public class Problem {
 
 	private final ObjectiveFunction objectiveFunction;
 	private final List<Constraint> constraints;
+	public final Variables variables;
 
-	public Problem(ObjectiveFunction objectiveFunction, List<Constraint> constraints) {
+	public Problem(ObjectiveFunction objectiveFunction, List<Constraint> constraints, Variables variables) {
 		this.objectiveFunction = objectiveFunction;
 		this.constraints = constraints;
+		this.variables = variables;
 	}
 
 	public ObjectiveFunction getObjectiveFunction() {
@@ -27,22 +28,8 @@ public class Problem {
 		return objectiveFunction.getObjective();
 	}
 
-	public List<Variable> getAllVariables() {
-		Set<Variable> allVariables = new LinkedHashSet<Variable>();
-		allVariables.addAll(objectiveFunction.getVariables());
-		for (Constraint constraint : constraints) {
-			allVariables.addAll(constraint.getVariables());
-		}
-		return new ArrayList<Variable>(allVariables);
-	}
-
-	public boolean containsArtificialVariable() {
-		for (Variable variable : objectiveFunction.getVariables()) {
-			if (variable.isArtificial) {
-				return true;
-			}
-		}
-		return false;
+	public boolean hasBigMTerm() {
+		return objectiveFunction.hasBigMTerm();
 	}
 
 	@Override

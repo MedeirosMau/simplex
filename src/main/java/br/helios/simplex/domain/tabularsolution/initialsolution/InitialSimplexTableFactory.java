@@ -6,15 +6,14 @@ import br.helios.simplex.domain.problem.Constraint;
 import br.helios.simplex.domain.problem.ObjectiveFunction;
 import br.helios.simplex.domain.problem.Problem;
 import br.helios.simplex.domain.problem.Term;
-import br.helios.simplex.domain.problem.Variable;
-import br.helios.simplex.domain.problem.Variables;
+import br.helios.simplex.domain.problem.variable.Variable;
 
 class InitialSimplexTableFactory {
 
 	public double[][] create(Problem artificialProblem) {
 		ObjectiveFunction objectiveFunction = artificialProblem.getObjectiveFunction();
 		int constraintsNum = artificialProblem.getConstraints().size();
-		Variable[] variables = Variables.toArray();
+		Variable[] variables = artificialProblem.variables.toArray();
 
 		double[][] table = new double[constraintsNum + 1][variables.length + 1];
 
@@ -24,6 +23,8 @@ class InitialSimplexTableFactory {
 			double variableCoefficient = getCoefficientFromVariable(objectiveFunction, variables[j]);
 			table[0][j] = -1 * variableCoefficient;
 		}
+
+		table[0][table[0].length - 1] = artificialProblem.getObjectiveFunction().getValue();
 
 		// Insert constraints coefficients
 

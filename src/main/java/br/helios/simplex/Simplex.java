@@ -1,5 +1,6 @@
 package br.helios.simplex;
 
+import static br.helios.simplex.domain.problem.parser.ParserVariables.getVariables;
 import static br.helios.simplex.infrastructure.io.InputData.INPUT_OK;
 import static br.helios.simplex.infrastructure.io.InputData.aguardarMensagem;
 import static br.helios.simplex.infrastructure.io.OutputData.message;
@@ -40,7 +41,7 @@ public class Simplex {
 			}
 		}
 
-		Problem problem = new Problem(objectiveFunction, constraints);
+		Problem problem = new Problem(objectiveFunction, constraints, getVariables());
 
 		message(" -- PROBLEM -- ").line().log();
 		message(problem.toString()).log();

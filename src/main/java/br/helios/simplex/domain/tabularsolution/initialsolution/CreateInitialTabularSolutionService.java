@@ -19,7 +19,7 @@ public class CreateInitialTabularSolutionService {
 	}
 
 	private InitialSolutionProcessor getProcessor(Problem artificialProblem) {
-		if (artificialProblem.containsArtificialVariable()) {
+		if (artificialProblem.hasBigMTerm()) {
 			return twoPhaseMethodProcessor;
 		}
 		return simpleProcessor;

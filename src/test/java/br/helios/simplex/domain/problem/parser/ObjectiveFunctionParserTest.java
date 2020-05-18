@@ -4,17 +4,16 @@ import static br.helios.simplex.domain.problem.Objective.MAXIMIZATION;
 import static br.helios.simplex.domain.problem.Objective.MINIMIZATION;
 import static br.helios.simplex.domain.problem.ObjectiveFunctionTestHelper.assertObjective;
 import static br.helios.simplex.domain.problem.ObjectiveFunctionTestHelper.assertTermCreated;
+import static br.helios.simplex.domain.problem.parser.ParserVariables.getVariables;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import br.helios.simplex.domain.problem.Variables;
 
 public class ObjectiveFunctionParserTest {
 
 	@Before
 	public void setUp() {
-		Variables.clear();
+		ParserVariables.clear();
 	}
 
 	@Test
@@ -34,12 +33,12 @@ public class ObjectiveFunctionParserTest {
 		// setup
 		String inputData = "max z = x1 - 2x2 -0.5x3 +100x4 + 200x5-8x6";
 		// verify
-		assertTermCreated(inputData, "x1", 1);
-		assertTermCreated(inputData, "x2", -2);
-		assertTermCreated(inputData, "x3", -0.5);
-		assertTermCreated(inputData, "x4", 100);
-		assertTermCreated(inputData, "x5", 200);
-		assertTermCreated(inputData, "x6", -8);
+		assertTermCreated(inputData, "x1", 1, getVariables());
+		assertTermCreated(inputData, "x2", -2, getVariables());
+		assertTermCreated(inputData, "x3", -0.5, getVariables());
+		assertTermCreated(inputData, "x4", 100, getVariables());
+		assertTermCreated(inputData, "x5", 200, getVariables());
+		assertTermCreated(inputData, "x6", -8, getVariables());
 	}
 
 }

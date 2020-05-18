@@ -7,16 +7,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.helios.simplex.domain.problem.Problem;
+import br.helios.simplex.domain.problem.Term;
 import br.helios.simplex.domain.problem.variable.Variable;
-import br.helios.simplex.domain.problem.variable.Variables;
 import br.helios.simplex.domain.tabularsolution.SolutionVariable;
 import br.helios.simplex.domain.tabularsolution.TabularSolution;
 
-class SimpleProcessor implements InitialSolutionProcessor {
+public class CreateFirstPhaseInitialSolutionService implements InitialSolutionProcessor {
 
 	private final InitialSimplexTableFactory initialSimplexTableFactory;
 
-	public SimpleProcessor() {
+	public CreateFirstPhaseInitialSolutionService() {
 		this.initialSimplexTableFactory = new InitialSimplexTableFactory();
 	}
 
@@ -28,18 +28,18 @@ class SimpleProcessor implements InitialSolutionProcessor {
 
 		for (int i = 0; i < problemVariables.size(); i++) {
 			Variable variable = problemVariables.get(i);
-			solutionVariables.add(createSolutionVariable(variable, artificialProblem.variables));
+			solutionVariables.add(createSolutionVariable(variable, artificialProblem));
 		}
 
 		return new TabularSolution(simplexTable, solutionVariables, artificialProblem.getObjective());
 	}
 
-	private SolutionVariable createSolutionVariable(Variable variable, Variables variables) {
-		int originalVariablesNum = variables.getOriginalVariables().size();
-		if (variable.isOriginal) {
+	private SolutionVariable createSolutionVariable(Variable variable, Problem artificialProblem) {
+		Term term = artificialProblem.getObjectiveFunction().getTermByVariable(variable);
+		if (term.getCoefficient() != 0) {
 			return createNonBasicVariable(variable);
 		} else {
-			return createBasicVariable(variable, variable.id() - originalVariablesNum);
+			return createBasicVariable(variable, variable.constraintOrder);
 		}
 	}
 }

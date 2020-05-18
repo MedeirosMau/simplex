@@ -1,6 +1,7 @@
 package br.helios.simplex.domain.problem.parser;
 
-import static br.helios.simplex.domain.problem.Variable.newOriginalVariable;
+import static br.helios.simplex.domain.problem.Term.createTerm;
+import static br.helios.simplex.domain.problem.parser.ParserVariables.getVariables;
 import static br.helios.simplex.infrastructure.util.StringUtil.COMA;
 import static br.helios.simplex.infrastructure.util.StringUtil.DOT;
 import static br.helios.simplex.infrastructure.util.StringUtil.NEGATIVE;
@@ -12,8 +13,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.helios.simplex.domain.problem.Term;
+import br.helios.simplex.domain.problem.variable.CreateVariableService;
+import br.helios.simplex.domain.problem.variable.Variable;
 
 class TermParser {
+
+	private final CreateVariableService createVariableService;
+
+	public TermParser() {
+		this.createVariableService = new CreateVariableService();
+	}
 
 	public List<Term> parse(String data) {
 		StringBuffer coefficientBuffer = new StringBuffer();
@@ -52,7 +61,8 @@ class TermParser {
 	}
 
 	private Term createNewTerm(StringBuffer coefficientBuffer, StringBuffer variableBuffer) {
-		return new Term(coefficientValue(coefficientBuffer.toString()), newOriginalVariable(variableBuffer.toString()));
+		Variable variable = createVariableService.createOriginalVariable(variableBuffer.toString(), getVariables());
+		return createTerm(coefficientValue(coefficientBuffer.toString()), variable);
 	}
 
 	private Double coefficientValue(String value) {

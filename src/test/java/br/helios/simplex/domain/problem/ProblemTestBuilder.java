@@ -5,6 +5,7 @@ import java.util.List;
 
 import br.helios.simplex.domain.problem.parser.ConstraintParser;
 import br.helios.simplex.domain.problem.parser.ObjectiveFunctionParser;
+import br.helios.simplex.domain.problem.parser.ParserVariables;
 
 public class ProblemTestBuilder {
 
@@ -39,12 +40,12 @@ public class ProblemTestBuilder {
 	}
 
 	public Problem build() {
-		Variables.clear();
+		ParserVariables.clear();
 		ObjectiveFunction objectiveFunction = new ObjectiveFunctionParser().parse(inputObjectiveFunction);
 		List<Constraint> constraints = new ArrayList<Constraint>();
 		for (String inputConstraint : inputConstraints) {
 			constraints.add(new ConstraintParser().parse(inputConstraint, constraints.size() + 1));
 		}
-		return new Problem(objectiveFunction, constraints);
+		return new Problem(objectiveFunction, constraints, ParserVariables.getVariables());
 	}
 }

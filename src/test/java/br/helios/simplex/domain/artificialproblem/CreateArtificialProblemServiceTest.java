@@ -5,26 +5,17 @@ import static br.helios.simplex.domain.problem.ConstraintTestHelper.assertTermCr
 import static br.helios.simplex.domain.problem.ObjectiveFunctionTestHelper.assertTermCreated;
 import static br.helios.simplex.domain.problem.Operator.EQUAL;
 import static br.helios.simplex.domain.problem.ProblemInstanceTestBuilder.buildSimpleProblemA;
-import static br.helios.simplex.domain.problem.Variable.FAKE_PREFIX;
-import static br.helios.simplex.domain.problem.Variables.clear;
-import static br.helios.simplex.domain.problem.Variables.getOriginalVariables;
-import static br.helios.simplex.domain.problem.Variables.getVariables;
+import static br.helios.simplex.domain.problem.variable.Variable.FAKE_PREFIX;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import br.helios.simplex.domain.problem.Constraint;
 import br.helios.simplex.domain.problem.Problem;
 
 public class CreateArtificialProblemServiceTest {
-
-	@Before
-	public void setUp() {
-		clear();
-	}
 
 	@Test
 	public void testArtificialSimpleProblem() {
@@ -37,11 +28,11 @@ public class CreateArtificialProblemServiceTest {
 		// verify
 		assertEquals(problem.getObjectiveFunction().getObjective(), artificialProblem.getObjectiveFunction().getObjective());
 		assertThat("Number of constraints should not change", problem.getConstraints().size(), is(3));
-		assertThat("One variable per constraint should be added", getVariables().size(), is(6));
+		assertThat("One variable per constraint should be added", artificialProblem.variables.size(), is(6));
 
-		assertTermCreated(artificialProblem.getObjectiveFunction(), "x4", 0);
-		assertTermCreated(artificialProblem.getObjectiveFunction(), "x5", 0);
-		assertTermCreated(artificialProblem.getObjectiveFunction(), "x6", 0);
+		assertTermCreated(artificialProblem.getObjectiveFunction(), "x4", 0, artificialProblem.variables);
+		assertTermCreated(artificialProblem.getObjectiveFunction(), "x5", 0, artificialProblem.variables);
+		assertTermCreated(artificialProblem.getObjectiveFunction(), "x6", 0, artificialProblem.variables);
 
 		for (int i = 0; i < artificialProblem.getConstraints().size(); i++) {
 			Constraint originalConstraint = problem.getConstraints().get(i);
@@ -53,9 +44,9 @@ public class CreateArtificialProblemServiceTest {
 
 			assertConstraint(newConstraint, EQUAL, originalConstraint.getConstraintValue());
 
-			int originalVariablesSize = getOriginalVariables().size();
+			int originalVariablesSize = artificialProblem.variables.getOriginalVariables().size();
 
-			assertTermCreated(newConstraint, FAKE_PREFIX + (originalVariablesSize + i + 1), 1);
+			assertTermCreated(newConstraint, FAKE_PREFIX + (originalVariablesSize + i + 1), 1, artificialProblem.variables);
 		}
 	}
 
