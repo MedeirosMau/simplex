@@ -129,6 +129,17 @@ public class ProblemInstanceTestBuilder {
 		return build(objectiveFunction, constraints);
 	}
 
+	/**
+	 * https://jaredantrobus.com/teaching/2015/Summer/MA162/4.2.php
+	 */
+	public static Problem buildMinimizationProblemWithGreaterEqualConstraintsC() {
+		String objectiveFunction = "min z = 4x1 + 2x2";
+		List<String> constraints = new ArrayList<String>();
+		constraints.add("5x1 + x2 >= 5");
+		constraints.add("5x1 + 3x2 >= 10");
+		return build(objectiveFunction, constraints);
+	}
+
 	public static Problem build(String objectiveFunction, List<String> constraints) {
 		return ProblemTestBuilder.create(objectiveFunction, constraints).build();
 	}

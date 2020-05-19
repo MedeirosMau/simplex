@@ -84,4 +84,13 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 		// verify
 		assertSolution(new BigDecimal("36.00000"), solution);
 	}
+
+	@Test
+	public void testMinimizationProblemWithGreaterEqualConstraintsC() {
+		// execute
+		Problem problem = ProblemInstanceTestBuilder.buildMinimizationProblemWithGreaterEqualConstraintsC();
+		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
+		// verify
+		assertSolution(new BigDecimal("7.00000"), solution);
+	}
 }
