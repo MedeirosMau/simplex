@@ -10,6 +10,7 @@ import br.helios.simplex.domain.problem.ObjectiveFunction;
 import br.helios.simplex.domain.problem.Problem;
 import br.helios.simplex.domain.problem.Term;
 import br.helios.simplex.domain.problem.variable.Variable;
+import br.helios.simplex.infrastructure.util.MathContextUtil;
 
 class InitialSimplexTableFactory {
 
@@ -24,7 +25,7 @@ class InitialSimplexTableFactory {
 
 		for (int j = 0; j < variables.length; j++) {
 			BigDecimal variableCoefficient = getCoefficientFromVariable(objectiveFunction, variables[j]);
-			table[0][j] = variableCoefficient.negate();
+			table[0][j] = variableCoefficient.negate(MathContextUtil.MATH_CONTEXT);
 		}
 
 		table[0][table[0].length - 1] = artificialProblem.getObjectiveFunction().getValue();

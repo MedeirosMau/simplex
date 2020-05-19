@@ -4,16 +4,22 @@ import static br.helios.simplex.infrastructure.util.StringUtil.hasElement;
 
 public enum Operator {
 
-	LESS_EQUAL("<="), GREATER_EQUAL(">="), LESS("<"), GREATER(">"), EQUAL("=");
+	LESS_EQUAL("<=", ">="), GREATER_EQUAL(">=", "<="), LESS("<", ">"), GREATER(">", "<"), EQUAL("=", "!="), NOT_EQUAL("!=", "=");
 
 	private final String operator;
+	private final String invertedOperator;
 
-	private Operator(String operator) {
+	private Operator(String operator, String invertedOperator) {
 		this.operator = operator;
+		this.invertedOperator = invertedOperator;
 	}
 
 	public String operator() {
 		return operator;
+	}
+
+	public Operator invertedOperator() {
+		return getOperator(invertedOperator);
 	}
 
 	public static Operator getOperator(String operator) {

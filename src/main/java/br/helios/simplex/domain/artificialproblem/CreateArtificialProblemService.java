@@ -20,12 +20,14 @@ public class CreateArtificialProblemService {
 	private final EqualProcessor equalProcessor;
 	private final GreaterEqualProcessor greaterEqualProcessor;
 	private final MinimizationProblemConverter minimizationProblemConverter;
+	private final NegativeConstraintConverter negativeConstraintConverter;
 
 	public CreateArtificialProblemService() {
 		this.lessEqualProcessor = new LessEqualProcessor();
 		this.equalProcessor = new EqualProcessor();
 		this.greaterEqualProcessor = new GreaterEqualProcessor();
 		this.minimizationProblemConverter = new MinimizationProblemConverter();
+		this.negativeConstraintConverter = new NegativeConstraintConverter();
 	}
 
 	public Problem create(Problem originalProblem) {
@@ -35,6 +37,9 @@ public class CreateArtificialProblemService {
 
 		for (int i = 0; i < originalProblem.getConstraints().size(); i++) {
 			Constraint originalConstraint = originalProblem.getConstraints().get(i);
+			if (originalConstraint.getConstraintValue().signum() < 0) {
+				originalConstraint = negativeConstraintConverter.convert(originalConstraint);
+			}
 			ConstraintProcessor constraintProcessor = getConstraintProcessor(originalConstraint.getOperator());
 			constraintProcessor.createConstraint(newObjectiveFunction, newConstraints, originalConstraint, newVariables);
 		}
@@ -43,7 +48,7 @@ public class CreateArtificialProblemService {
 			newObjectiveFunction = minimizationProblemConverter.convert(newObjectiveFunction);
 		}
 
-		return new Problem(newObjectiveFunction, newConstraints, newVariables);
+		return new Problem(newObjectiveFunction, newConstraints, newVariables, originalProblem);
 	}
 
 	private ConstraintProcessor getConstraintProcessor(Operator constraintOperator) {

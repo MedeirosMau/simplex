@@ -9,11 +9,13 @@ public class Problem {
 	private final ObjectiveFunction objectiveFunction;
 	private final List<Constraint> constraints;
 	public final Variables variables;
+	public final Problem origin;
 
-	public Problem(ObjectiveFunction objectiveFunction, List<Constraint> constraints, Variables variables) {
+	public Problem(ObjectiveFunction objectiveFunction, List<Constraint> constraints, Variables variables, Problem origin) {
 		this.objectiveFunction = objectiveFunction;
 		this.constraints = constraints;
 		this.variables = variables;
+		this.origin = origin;
 	}
 
 	public ObjectiveFunction getObjectiveFunction() {

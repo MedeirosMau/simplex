@@ -1,5 +1,7 @@
 package br.helios.simplex.infrastructure.io;
 
+import static br.helios.simplex.domain.problem.Objective.INVERTED_MINIMIZATION;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 
@@ -34,7 +36,7 @@ public class OutputData {
 		for (int i = 0; i < simplexTable.length; i++) {
 			builder.append("(" + i + ") ");
 			if (i == 0) {
-				builder.append("z ");
+				builder.append(tabularSolution.objective == INVERTED_MINIMIZATION ? "-z " : "z ");
 			} else {
 				builder.append(tabularSolution.getVariableByTableLine(i).name() + " ");
 			}

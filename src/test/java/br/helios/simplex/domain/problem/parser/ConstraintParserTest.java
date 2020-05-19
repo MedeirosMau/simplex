@@ -45,7 +45,7 @@ public class ConstraintParserTest {
 		String inputData = "0.5x1 - 2.0x2 -0.0005x3+100x4 -  200x5   <= 10";
 		// verify
 		assertTermCreated(inputData, "x1", new BigDecimal("0.5"), getVariables());
-		assertTermCreated(inputData, "x2", new BigDecimal("-2"), getVariables());
+		assertTermCreated(inputData, "x2", new BigDecimal("-2.0"), getVariables());
 		assertTermCreated(inputData, "x3", new BigDecimal("-0.0005"), getVariables());
 		assertTermCreated(inputData, "x4", new BigDecimal("100"), getVariables());
 		assertTermCreated(inputData, "x5", new BigDecimal("-200"), getVariables());
@@ -57,7 +57,7 @@ public class ConstraintParserTest {
 		String inputData = "0.5x1 - 2.0x2 -0.0005x3+100x4 -  200x5   >= 10";
 		// verify
 		assertTermCreated(inputData, "x1", new BigDecimal("0.5"), getVariables());
-		assertTermCreated(inputData, "x2", new BigDecimal("-2"), getVariables());
+		assertTermCreated(inputData, "x2", new BigDecimal("-2.0"), getVariables());
 		assertTermCreated(inputData, "x3", new BigDecimal("-0.0005"), getVariables());
 		assertTermCreated(inputData, "x4", new BigDecimal("100"), getVariables());
 		assertTermCreated(inputData, "x5", new BigDecimal("-200"), getVariables());
@@ -69,7 +69,7 @@ public class ConstraintParserTest {
 		String inputData = "0.5x1 - 2.0x2 -0.0005x3+100x4 -  200x5  = 10";
 		// verify
 		assertTermCreated(inputData, "x1", new BigDecimal("0.5"), getVariables());
-		assertTermCreated(inputData, "x2", new BigDecimal("-2"), getVariables());
+		assertTermCreated(inputData, "x2", new BigDecimal("-2.0"), getVariables());
 		assertTermCreated(inputData, "x3", new BigDecimal("-0.0005"), getVariables());
 		assertTermCreated(inputData, "x4", new BigDecimal("100"), getVariables());
 		assertTermCreated(inputData, "x5", new BigDecimal("-200"), getVariables());

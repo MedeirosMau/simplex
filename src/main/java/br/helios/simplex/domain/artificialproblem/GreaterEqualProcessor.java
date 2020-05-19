@@ -16,6 +16,7 @@ import br.helios.simplex.domain.problem.Term;
 import br.helios.simplex.domain.problem.variable.CreateVariableService;
 import br.helios.simplex.domain.problem.variable.Variable;
 import br.helios.simplex.domain.problem.variable.Variables;
+import br.helios.simplex.infrastructure.util.MathContextUtil;
 
 class GreaterEqualProcessor implements ConstraintProcessor {
 
@@ -36,7 +37,7 @@ class GreaterEqualProcessor implements ConstraintProcessor {
 	private void createNewSlackVariable(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint newConstraint, Variables variables) {
 		Variable newSlackVariable = createVariableService.createSlackVariable(variables, newConstraint);
 		// newObjectiveFunction.addTerm(createTerm(0, newSlackVariable));
-		newConstraint.addTerm(createTerm(ONE.negate(), newSlackVariable));
+		newConstraint.addTerm(createTerm(ONE.negate(MathContextUtil.MATH_CONTEXT), newSlackVariable));
 	}
 
 	private void createNewArtificialVariable(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint newConstraint, Variables variables) {

@@ -2,10 +2,10 @@ package br.helios.simplex.domain.tabularsolution.initialsolution;
 
 import static br.helios.simplex.domain.problem.Objective.MINIMIZATION;
 import static br.helios.simplex.domain.problem.Term.createTerm;
+import static br.helios.simplex.infrastructure.util.MathContextUtil.MATH_CONTEXT;
 import static java.math.BigDecimal.ZERO;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +18,7 @@ import br.helios.simplex.domain.problem.Problem;
 import br.helios.simplex.domain.problem.Term;
 import br.helios.simplex.domain.problem.variable.Variable;
 import br.helios.simplex.domain.problem.variable.Variables;
+import br.helios.simplex.infrastructure.util.MathContextUtil;
 
 class CreateFirstPhaseProblemService {
 
@@ -30,7 +31,7 @@ class CreateFirstPhaseProblemService {
 	public Problem create(Problem artificialProblem) {
 		ObjectiveFunction newObjectiveFunction = createNewObjectiveFunctionTerms(artificialProblem);
 		Variables newVariables = artificialProblem.variables.clone();
-		return new Problem(newObjectiveFunction, artificialProblem.getConstraints(), newVariables);
+		return new Problem(newObjectiveFunction, artificialProblem.getConstraints(), newVariables, artificialProblem);
 	}
 
 	private ObjectiveFunction createNewObjectiveFunctionTerms(Problem artificialProblem) {
@@ -71,10 +72,10 @@ class CreateFirstPhaseProblemService {
 			BigDecimal coefficient = ZERO;
 			if (variableTerms.containsKey(variable)) {
 				for (Term term : variableTerms.get(variable)) {
-					coefficient = coefficient.add(term.getCoefficient(), MathContext.DECIMAL32);
+					coefficient = coefficient.add(term.getCoefficient(), MATH_CONTEXT);
 				}
 			}
-			objectiveFunctionTerms.add(createTerm(coefficient.negate(), variable));
+			objectiveFunctionTerms.add(createTerm(coefficient.negate(MathContextUtil.MATH_CONTEXT), variable));
 		}
 
 		// Objective function value
@@ -82,7 +83,7 @@ class CreateFirstPhaseProblemService {
 		BigDecimal objectiveFunctionValue = ZERO;
 
 		for (Constraint constraint : constraintsWithArtificialTerms) {
-			objectiveFunctionValue = objectiveFunctionValue.add(constraint.getConstraintValue(), MathContext.DECIMAL32);
+			objectiveFunctionValue = objectiveFunctionValue.add(constraint.getConstraintValue(), MATH_CONTEXT);
 		}
 
 		ObjectiveFunction objectiveFunction = new ObjectiveFunction(MINIMIZATION, objectiveFunctionTerms, objectiveFunctionValue);

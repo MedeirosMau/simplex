@@ -1,14 +1,15 @@
 package br.helios.simplex.domain.tabularsolution;
 
 import static br.helios.simplex.domain.problem.Objective.INVERTED_MINIMIZATION;
+import static br.helios.simplex.infrastructure.util.MathContextUtil.MATH_CONTEXT;
 import static java.math.BigDecimal.ZERO;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.Arrays;
 import java.util.List;
 
 import br.helios.simplex.domain.problem.Objective;
+import br.helios.simplex.infrastructure.util.MathContextUtil;
 
 public class TabularSolution {
 
@@ -58,7 +59,7 @@ public class TabularSolution {
 		for (int i = 1; i < simplexTable.length; i++) {
 			SolutionVariable variable = getVariableByTableLine(i);
 			if (variable.isBasic && simplexTable[i][pivotColum].compareTo(ZERO) > 0) {
-				BigDecimal value = simplexTable[i][simplexTable[i].length - 1].divide(simplexTable[i][pivotColum], MathContext.DECIMAL32);
+				BigDecimal value = simplexTable[i][simplexTable[i].length - 1].divide(simplexTable[i][pivotColum], MATH_CONTEXT);
 				if (candidateVariable == null || value.compareTo(lowestValue) < 0) {
 					lowestValue = value;
 					candidateVariable = variable;
@@ -82,7 +83,7 @@ public class TabularSolution {
 	}
 
 	public boolean isBestSolution() {
-		for (int j = 0; j < simplexTable[0].length; j++) {
+		for (int j = 0; j < simplexTable[0].length - 1; j++) {
 			if (simplexTable[0][j].compareTo(ZERO) < 0) {
 				return false;
 			}
@@ -101,7 +102,7 @@ public class TabularSolution {
 	public BigDecimal getSolutionValue() {
 		BigDecimal value = simplexTable[0][simplexTable[0].length - 1];
 		if (objective == INVERTED_MINIMIZATION) {
-			return value.negate();
+			return value.negate(MathContextUtil.MATH_CONTEXT);
 		}
 		return value;
 

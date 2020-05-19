@@ -17,6 +17,7 @@ import java.util.List;
 import br.helios.simplex.domain.problem.Term;
 import br.helios.simplex.domain.problem.variable.CreateVariableService;
 import br.helios.simplex.domain.problem.variable.Variable;
+import br.helios.simplex.infrastructure.util.MathContextUtil;
 
 class TermParser {
 
@@ -73,7 +74,7 @@ class TermParser {
 				if (value.equals("+")) {
 					return ONE;
 				} else if (value.equals("-")) {
-					return ONE.negate();
+					return ONE.negate(MathContextUtil.MATH_CONTEXT);
 				}
 			}
 			String valueNormalized = value.replace("+", "").trim();

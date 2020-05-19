@@ -7,6 +7,7 @@ import static java.math.BigDecimal.ZERO;
 import java.math.BigDecimal;
 
 import br.helios.simplex.domain.problem.variable.Variable;
+import br.helios.simplex.infrastructure.util.MathContextUtil;
 
 public class Term {
 
@@ -32,11 +33,11 @@ public class Term {
 	}
 
 	public static Term createNegativeBigMTerm(Variable variable) {
-		return new Term(BIG_M_VALUE.negate(), variable, true);
+		return new Term(BIG_M_VALUE.negate(MathContextUtil.MATH_CONTEXT), variable, true);
 	}
 
 	public static Term createTermInverted(Term term) {
-		return new Term(term.getCoefficient().negate(), term.getVariable(), term.isBigM());
+		return new Term(term.getCoefficient().negate(MathContextUtil.MATH_CONTEXT), term.getVariable(), term.isBigM());
 	}
 
 	public BigDecimal getCoefficient() {

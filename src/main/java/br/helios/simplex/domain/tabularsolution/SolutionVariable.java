@@ -18,9 +18,9 @@ public class SolutionVariable {
 	public final int tableLine;
 	public final boolean isBasic;
 
-	private SolutionVariable(Variable variable, int tableLine, boolean isBasic) {
+	private SolutionVariable(Variable variable, int tableLine, boolean isBasic, int index) {
 		this.variable = variable;
-		this.index = variable.id() - 1;
+		this.index = index;
 
 		if (isBasic && tableLine <= 0) {
 			throw new IllegalArgumentException("Basic variables line not informed");
@@ -31,11 +31,15 @@ public class SolutionVariable {
 	}
 
 	public static SolutionVariable createBasicVariable(Variable variable, int tableLine) {
-		return new SolutionVariable(variable, tableLine, true);
+		return new SolutionVariable(variable, tableLine, true, variable.id() - 1);
 	}
 
 	public static SolutionVariable createNonBasicVariable(Variable variable) {
-		return new SolutionVariable(variable, NON_BASIC_LINE, false);
+		return new SolutionVariable(variable, NON_BASIC_LINE, false, variable.id() - 1);
+	}
+
+	public static SolutionVariable createVariable(SolutionVariable solutionVariable, int newIndex) {
+		return new SolutionVariable(solutionVariable.variable, solutionVariable.tableLine, solutionVariable.isBasic, newIndex);
 	}
 
 	public String name() {

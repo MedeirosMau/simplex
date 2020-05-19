@@ -3,12 +3,14 @@ package br.helios.simplex.domain.tabularsolution;
 import static br.helios.simplex.domain.tabularsolution.SolutionVariable.createBasicVariable;
 import static br.helios.simplex.domain.tabularsolution.SolutionVariable.createNonBasicVariable;
 import static br.helios.simplex.infrastructure.io.OutputData.message;
+import static br.helios.simplex.infrastructure.util.MathContextUtil.MATH_CONTEXT;
 import static java.math.BigDecimal.ZERO;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.List;
+
+import br.helios.simplex.infrastructure.util.MathContextUtil;
 
 public class PivotOperationService {
 
@@ -46,7 +48,7 @@ public class PivotOperationService {
 
 		for (int j = 0; j < newSimplexTable[pivotLineIndex].length; j++) {
 			if (newSimplexTable[pivotLineIndex][j].signum() != 0) {
-				newSimplexTable[pivotLineIndex][j] = newSimplexTable[pivotLineIndex][j].divide(pivotValue, MathContext.DECIMAL32);
+				newSimplexTable[pivotLineIndex][j] = newSimplexTable[pivotLineIndex][j].divide(pivotValue, MATH_CONTEXT);
 			}
 		}
 
@@ -57,11 +59,11 @@ public class PivotOperationService {
 				BigDecimal pivotColumnValue = newSimplexTable[i][pivotColumnIndex];
 				// message(format("i: %d, value: %f", i, pivotColumnValue)).line().log();
 				if (pivotColumnValue.compareTo(ZERO) != 0) {
-					BigDecimal normalizer = pivotColumnValue.negate();
+					BigDecimal normalizer = pivotColumnValue.negate(MathContextUtil.MATH_CONTEXT);
 					// message(format(", normalizer: %f", normalizer)).line().log();
 					for (int j = 0; j < newSimplexTable[i].length; j++) {
 						BigDecimal value = newSimplexTable[pivotLineIndex][j];
-						newSimplexTable[i][j] = (normalizer.multiply(value, MathContext.DECIMAL32)).add(newSimplexTable[i][j], MathContext.DECIMAL32);
+						newSimplexTable[i][j] = (normalizer.multiply(value, MATH_CONTEXT)).add(newSimplexTable[i][j], MATH_CONTEXT);
 					}
 				}
 			}

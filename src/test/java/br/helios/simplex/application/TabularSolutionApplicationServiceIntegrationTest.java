@@ -55,7 +55,33 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 		Problem problem = ProblemInstanceTestBuilder.buildProblemWithEquityAndGreaterEqualConstraints();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
-		assertSolution(new BigDecimal("-11.33333"), solution);
+		assertSolution(new BigDecimal("5.25000"), solution);
 	}
 
+	@Test
+	public void testProblemWithEquityAndGreaterEqualAndNegativeConstraints() {
+		// execute
+		Problem problem = ProblemInstanceTestBuilder.buildProblemWithEquityAndGreaterEqualAndNegativeConstraints();
+		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
+		// verify
+		assertSolution(new BigDecimal("5.25000"), solution);
+	}
+
+	@Test
+	public void testMinimizationProblemWithGreaterEqualConstraints() {
+		// execute
+		Problem problem = ProblemInstanceTestBuilder.buildMinimizationProblemWithGreaterEqualConstraints();
+		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
+		// verify
+		assertSolution(new BigDecimal("0.66000"), solution);
+	}
+
+	@Test
+	public void testMinimizationProblemWithGreaterEqualConstraintsB() {
+		// execute
+		Problem problem = ProblemInstanceTestBuilder.buildMinimizationProblemWithGreaterEqualConstraintsB();
+		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
+		// verify
+		assertSolution(new BigDecimal("36.00000"), solution);
+	}
 }

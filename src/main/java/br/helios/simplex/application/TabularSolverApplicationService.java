@@ -14,7 +14,7 @@ public class TabularSolverApplicationService {
 
 	public TabularSolverApplicationService() {
 		this.createArtificialProblemService = new CreateArtificialProblemService();
-		this.tabularSolverService = TabularSolverService.instance();
+		this.tabularSolverService = new TabularSolverService();
 	}
 
 	// TODO: equality constraint
@@ -33,4 +33,5 @@ public class TabularSolverApplicationService {
 		message(artificialProblem.toString()).line().log();
 		return tabularSolverService.solve(artificialProblem);
 	}
+
 }

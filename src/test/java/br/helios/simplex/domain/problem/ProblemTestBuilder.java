@@ -46,6 +46,6 @@ public class ProblemTestBuilder {
 		for (String inputConstraint : inputConstraints) {
 			constraints.add(new ConstraintParser().parse(inputConstraint, constraints.size() + 1));
 		}
-		return new Problem(objectiveFunction, constraints, ParserVariables.getVariables());
+		return new Problem(objectiveFunction, constraints, ParserVariables.getVariables(), null);
 	}
 }

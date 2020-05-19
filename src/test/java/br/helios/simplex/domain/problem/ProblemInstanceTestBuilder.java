@@ -81,12 +81,51 @@ public class ProblemInstanceTestBuilder {
 		return build(objectiveFunction, constraints);
 	}
 
+	/**
+	 * Hillier
+	 */
 	public static Problem buildProblemWithEquityAndGreaterEqualConstraints() {
 		String objectiveFunction = "min z = 0.4x1 + 0.5x2";
 		List<String> constraints = new ArrayList<String>();
 		constraints.add("0.3x1 + 0.1x2 <= 2.7");
 		constraints.add("0.5x1 + 0.5x2 = 6");
 		constraints.add("0.6x1 + 0.4x2 >= 6");
+		return build(objectiveFunction, constraints);
+	}
+
+	/**
+	 * Hillier (with negative constraint)
+	 */
+	public static Problem buildProblemWithEquityAndGreaterEqualAndNegativeConstraints() {
+		String objectiveFunction = "min z = 0.4x1 + 0.5x2";
+		List<String> constraints = new ArrayList<String>();
+		constraints.add("0.3x1 + 0.1x2 <= 2.7");
+		constraints.add("0.5x1 + 0.5x2 = 6");
+		constraints.add("-0.6x1 - 0.4x2 <= -6");
+		return build(objectiveFunction, constraints);
+	}
+
+	/**
+	 * https://college.cengage.com/mathematics/larson/elementary_linear/4e/shared/downloads/c09s4.pdf
+	 */
+	public static Problem buildMinimizationProblemWithGreaterEqualConstraints() {
+		String objectiveFunction = "min z = 0.12x1 + 0.15x2";
+		List<String> constraints = new ArrayList<String>();
+		constraints.add("60x1 + 60x2 >= 300");
+		constraints.add("12x1 + 6x2 >= 36");
+		constraints.add("10x1 + 30x2 >= 90");
+		return build(objectiveFunction, constraints);
+	}
+
+	/**
+	 * https://college.cengage.com/mathematics/larson/elementary_linear/4e/shared/downloads/c09s4.pdf
+	 */
+	public static Problem buildMinimizationProblemWithGreaterEqualConstraintsB() {
+		String objectiveFunction = "min z = 2x1 +10x2 + 8x3";
+		List<String> constraints = new ArrayList<String>();
+		constraints.add("x1 + x2 +x3 >= 6");
+		constraints.add("x2 + 2x3 >= 8");
+		constraints.add("-x1 + 2x2 + 2x3 >= 4");
 		return build(objectiveFunction, constraints);
 	}
 
