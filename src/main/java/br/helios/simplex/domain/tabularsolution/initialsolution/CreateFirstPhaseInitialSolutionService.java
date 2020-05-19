@@ -38,7 +38,7 @@ public class CreateFirstPhaseInitialSolutionService implements InitialSolutionPr
 
 	private SolutionVariable createSolutionVariable(Variable variable, Problem artificialProblem) {
 		Term term = artificialProblem.getObjectiveFunction().getTermByVariable(variable);
-		if (term.getCoefficient().compareTo(ZERO) != 0) {
+		if (term.getCoefficient().compareTo(ZERO) != 0 || term.getVariable().isOriginal) {
 			return createNonBasicVariable(variable);
 		} else {
 			return createBasicVariable(variable, variable.constraintOrder);

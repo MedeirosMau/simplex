@@ -78,7 +78,7 @@ public class CreateSecondPhaseInitialSolutionService {
 
 		for (int index = 0; index < newSolutionVariables.size(); index++) {
 			SolutionVariable solutionVariable = newSolutionVariables.get(index);
-			if (solutionVariable.variable.isOriginal) {
+			if (solutionVariable.isBasic) {
 				BigDecimal coefficientValue = newSimplexTable[0][solutionVariable.index];
 				if (coefficientValue.compareTo(ZERO) != 0) {
 					BigDecimal normalizer = coefficientValue.negate(MathContextUtil.MATH_CONTEXT);

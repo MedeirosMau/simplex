@@ -21,6 +21,9 @@ public class PivotOperationService {
 		SolutionVariable basicVariableCandidate = previousSolution.getBasicVariableCandidate();
 		message("Basic candidate: " + basicVariableCandidate.toString()).line().log();
 		SolutionVariable nonBasicVariableCandidate = previousSolution.getNonBasicVariableCandidate(basicVariableCandidate);
+		if (nonBasicVariableCandidate == null) {
+			return previousSolution;
+		}
 		message("Non Basic candidate: " + nonBasicVariableCandidate.toString()).line().log();
 
 		// Swap data of basic/non basic variables

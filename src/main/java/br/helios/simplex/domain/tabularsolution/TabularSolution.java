@@ -16,6 +16,7 @@ public class TabularSolution {
 	public final BigDecimal[][] simplexTable;
 	public final List<SolutionVariable> variables;
 	public final Objective objective;
+	public boolean foundBestSolution;
 
 	public TabularSolution(BigDecimal[][] simplexTable, List<SolutionVariable> variables, Objective objective) {
 		this.simplexTable = simplexTable;
@@ -70,6 +71,8 @@ public class TabularSolution {
 			}
 		}
 
+		this.foundBestSolution = true;
+
 		return candidateVariable;
 	}
 
@@ -83,6 +86,9 @@ public class TabularSolution {
 	}
 
 	public boolean isBestSolution() {
+		if (foundBestSolution) {
+			return true;
+		}
 		for (int j = 0; j < simplexTable[0].length - 1; j++) {
 			if (simplexTable[0][j].compareTo(ZERO) < 0) {
 				return false;
