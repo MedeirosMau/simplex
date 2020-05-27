@@ -40,9 +40,6 @@ public class PivotOperationService {
 			message("Non Basic candidate: " + nonBasicVariableCandidate.toString()).line().log();
 		}
 
-		message("Basic candidate: " + basicVariableCandidate.toString()).line().log();
-		message("Non Basic candidate: " + nonBasicVariableCandidate.toString()).line().log();
-
 		// Swap data of basic/non basic variables
 
 		for (int index = 0; index < newSolutionVariables.size(); index++) {

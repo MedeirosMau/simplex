@@ -19,14 +19,14 @@ public class CreateArtificialProblemService {
 	private final LessEqualProcessor lessEqualProcessor;
 	private final EqualProcessor equalProcessor;
 	private final GreaterEqualProcessor greaterEqualProcessor;
-	private final MinimizationProblemConverter minimizationProblemConverter;
+	private final ProblemObjectiveConverter problemObjectiveConverter;
 	private final ConstraintConverter negativeConstraintConverter;
 
 	public CreateArtificialProblemService() {
 		this.lessEqualProcessor = new LessEqualProcessor();
 		this.equalProcessor = new EqualProcessor();
 		this.greaterEqualProcessor = new GreaterEqualProcessor();
-		this.minimizationProblemConverter = new MinimizationProblemConverter();
+		this.problemObjectiveConverter = new ProblemObjectiveConverter();
 		this.negativeConstraintConverter = new ConstraintConverter();
 	}
 
@@ -41,14 +41,14 @@ public class CreateArtificialProblemService {
 				originalConstraint = negativeConstraintConverter.convert(originalConstraint);
 			}
 			ConstraintProcessor constraintProcessor = getConstraintProcessor(originalConstraint.getOperator());
-			constraintProcessor.createConstraint(newObjectiveFunction, newConstraints, originalConstraint, newVariables, false);
+			constraintProcessor.createConstraint(newObjectiveFunction, newConstraints, originalConstraint, newVariables, originalProblem.isDual);
 		}
 
-		if (originalProblem.getObjective() == MINIMIZATION) {
-			newObjectiveFunction = minimizationProblemConverter.convert(newObjectiveFunction);
+		if (newObjectiveFunction.getObjective() == MINIMIZATION) {
+			newObjectiveFunction = problemObjectiveConverter.convert(newObjectiveFunction);
 		}
 
-		return new Problem(newObjectiveFunction, newConstraints, newVariables, originalProblem, false);
+		return new Problem(newObjectiveFunction, newConstraints, newVariables, originalProblem, originalProblem.isDual);
 	}
 
 	private boolean shouldInvert(Problem originalProblem, Constraint originalConstraint) {
@@ -56,7 +56,8 @@ public class CreateArtificialProblemService {
 		// originalConstraint.getConstraintValue().signum() < 0)
 		// || (originalProblem.isDual &&
 		// originalConstraint.getConstraintValue().signum() >= 0);
-		return (!originalProblem.isDual && originalConstraint.getConstraintValue().signum() < 0);
+		return (!originalProblem.isDual && originalConstraint.getConstraintValue().signum() < 0)
+				|| (originalProblem.isDual && originalConstraint.getConstraintValue().signum() > 0);
 	}
 
 	private ConstraintProcessor getConstraintProcessor(Operator constraintOperator) {

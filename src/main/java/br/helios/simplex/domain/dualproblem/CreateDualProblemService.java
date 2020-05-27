@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.helios.simplex.domain.artificialproblem.ConstraintConverter;
-import br.helios.simplex.domain.artificialproblem.MinimizationProblemConverter;
+import br.helios.simplex.domain.artificialproblem.ProblemObjectiveConverter;
 import br.helios.simplex.domain.problem.Constraint;
 import br.helios.simplex.domain.problem.Objective;
 import br.helios.simplex.domain.problem.ObjectiveFunction;
@@ -23,17 +23,18 @@ import br.helios.simplex.domain.problem.variable.Variables;
 public class CreateDualProblemService {
 
 	private final CreateVariableService createVariableService;
-	private final MinimizationProblemConverter minimizationProblemConverter;
+	private final ProblemObjectiveConverter minimizationProblemConverter;
 	private final ConstraintConverter constraintConverter;
 
 	public CreateDualProblemService() {
 		this.createVariableService = new CreateVariableService();
-		this.minimizationProblemConverter = new MinimizationProblemConverter();
+		this.minimizationProblemConverter = new ProblemObjectiveConverter();
 		this.constraintConverter = new ConstraintConverter();
 	}
 
 	public Problem create(Problem originalProblem) {
-		Problem adaptedProblem = adaptProblem(originalProblem);
+		// Problem adaptedProblem = adaptProblem(originalProblem);
+		Problem adaptedProblem = originalProblem;
 
 		ObjectiveFunction originalObjectiveFunction = adaptedProblem.getObjectiveFunction();
 

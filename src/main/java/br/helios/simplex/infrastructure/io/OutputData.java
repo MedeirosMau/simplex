@@ -1,5 +1,6 @@
 package br.helios.simplex.infrastructure.io;
 
+import static br.helios.simplex.domain.problem.Objective.INVERTED_MAXIMIZATION;
 import static br.helios.simplex.domain.problem.Objective.INVERTED_MINIMIZATION;
 
 import java.math.BigDecimal;
@@ -36,7 +37,8 @@ public class OutputData {
 		for (int i = 0; i < simplexTable.length; i++) {
 			builder.append("(" + i + ") ");
 			if (i == 0) {
-				builder.append(tabularSolution.objective == INVERTED_MINIMIZATION ? "-z " : "z ");
+				builder.append(
+						tabularSolution.objective == INVERTED_MINIMIZATION || tabularSolution.objective == INVERTED_MAXIMIZATION ? "-z " : "z ");
 			} else {
 				builder.append(tabularSolution.getVariableByTableLine(i).name() + " ");
 			}

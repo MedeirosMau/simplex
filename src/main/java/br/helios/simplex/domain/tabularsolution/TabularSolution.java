@@ -1,5 +1,6 @@
 package br.helios.simplex.domain.tabularsolution;
 
+import static br.helios.simplex.domain.problem.Objective.INVERTED_MAXIMIZATION;
 import static br.helios.simplex.domain.problem.Objective.INVERTED_MINIMIZATION;
 
 import java.math.BigDecimal;
@@ -58,7 +59,7 @@ public abstract class TabularSolution {
 
 	public BigDecimal getSolutionValue() {
 		BigDecimal value = simplexTable[0][simplexTable[0].length - 1];
-		if (objective == INVERTED_MINIMIZATION) {
+		if (objective == INVERTED_MINIMIZATION || objective == INVERTED_MAXIMIZATION) {
 			return value.negate(MathContextUtil.MATH_CONTEXT);
 		}
 		return value;

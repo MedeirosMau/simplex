@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import br.helios.simplex.domain.artificialproblem.MinimizationProblemConverter;
+import br.helios.simplex.domain.artificialproblem.ProblemObjectiveConverter;
 import br.helios.simplex.domain.problem.Constraint;
 import br.helios.simplex.domain.problem.ObjectiveFunction;
 import br.helios.simplex.domain.problem.Problem;
@@ -22,10 +22,10 @@ import br.helios.simplex.infrastructure.util.MathContextUtil;
 
 class CreateFirstPhaseProblemService {
 
-	private final MinimizationProblemConverter minimizationProblemConverter;
+	private final ProblemObjectiveConverter problemObjectiveConverter;
 
 	public CreateFirstPhaseProblemService() {
-		this.minimizationProblemConverter = new MinimizationProblemConverter();
+		this.problemObjectiveConverter = new ProblemObjectiveConverter();
 	}
 
 	public Problem create(Problem artificialProblem) {
@@ -87,6 +87,6 @@ class CreateFirstPhaseProblemService {
 		}
 
 		ObjectiveFunction objectiveFunction = new ObjectiveFunction(MINIMIZATION, objectiveFunctionTerms, objectiveFunctionValue);
-		return minimizationProblemConverter.convert(objectiveFunction);
+		return problemObjectiveConverter.convert(objectiveFunction);
 	}
 }
