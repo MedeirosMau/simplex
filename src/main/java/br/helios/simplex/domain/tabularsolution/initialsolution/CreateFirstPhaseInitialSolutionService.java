@@ -15,6 +15,7 @@ import br.helios.simplex.domain.tabularsolution.DualTabularSolution;
 import br.helios.simplex.domain.tabularsolution.PrimalTabularSolution;
 import br.helios.simplex.domain.tabularsolution.SolutionVariable;
 import br.helios.simplex.domain.tabularsolution.TabularSolution;
+import br.helios.simplex.infrastructure.util.Dual;
 
 public class CreateFirstPhaseInitialSolutionService implements InitialSolutionProcessor {
 
@@ -35,7 +36,7 @@ public class CreateFirstPhaseInitialSolutionService implements InitialSolutionPr
 			solutionVariables.add(createSolutionVariable(variable, artificialProblem));
 		}
 
-		if (artificialProblem.isDual) {
+		if (artificialProblem.isDual && Dual.DUAL_ENABLED) {
 			return new DualTabularSolution(simplexTable, solutionVariables, artificialProblem.getObjective());
 		}
 		return new PrimalTabularSolution(simplexTable, solutionVariables, artificialProblem.getObjective());

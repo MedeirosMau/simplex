@@ -12,8 +12,6 @@ import br.helios.simplex.domain.tabularsolution.TabularSolution;
 
 public class TabularSolutionApplicationServiceIntegrationDualTest {
 
-	private static final BigDecimal TEST_ZERO = new BigDecimal("0.00000");
-
 	@Test
 	public void testSimpleProblemBDual() {
 		// execute

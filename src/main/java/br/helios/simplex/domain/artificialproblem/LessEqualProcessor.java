@@ -17,9 +17,11 @@ import br.helios.simplex.domain.problem.variable.Variables;
 class LessEqualProcessor implements ConstraintProcessor {
 
 	private final CreateVariableService createVariableService;
+	private final ConstraintConverter constraintConverter;
 
 	public LessEqualProcessor() {
 		this.createVariableService = new CreateVariableService();
+		this.constraintConverter = new ConstraintConverter();
 	}
 
 	@Override

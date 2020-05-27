@@ -144,7 +144,7 @@ public class ProblemInstanceTestBuilder {
 	 * https://courses.lumenlearning.com/sanjacinto-finitemath1/chapter/reading-solving-standard-maximization-problems-using-the-simplex-method/
 	 */
 	public static Problem buildSimpleProblemD() {
-		String objectiveFunction = "max z = 1900x1 + 700x2 + 1000z";
+		String objectiveFunction = "max z = 1900x1 + 700x2 + 1000x3";
 		List<String> constraints = new ArrayList<String>();
 		constraints.add("x1 + x2 + x3 <= 600");
 		constraints.add("14x2 + 40x3 <= 0");

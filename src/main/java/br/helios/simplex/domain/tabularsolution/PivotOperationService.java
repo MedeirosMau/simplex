@@ -10,6 +10,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.helios.simplex.infrastructure.util.Dual;
 import br.helios.simplex.infrastructure.util.MathContextUtil;
 
 public class PivotOperationService {
@@ -86,7 +87,7 @@ public class PivotOperationService {
 			}
 		}
 
-		if (previousSolution.isDual) {
+		if (previousSolution.isDual && Dual.DUAL_ENABLED) {
 			return new DualTabularSolution(newSimplexTable, newSolutionVariables, previousSolution.objective);
 		}
 		return new PrimalTabularSolution(newSimplexTable, newSolutionVariables, previousSolution.objective);

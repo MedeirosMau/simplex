@@ -1,9 +1,7 @@
 package br.helios.simplex.domain.dualproblem;
 
-import static br.helios.simplex.domain.problem.Objective.MINIMIZATION;
 import static br.helios.simplex.domain.problem.Term.createTerm;
 import static br.helios.simplex.domain.problem.variable.Variable.DUAL_PREFIX;
-import static br.helios.simplex.infrastructure.io.OutputData.message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,23 +21,20 @@ import br.helios.simplex.domain.problem.variable.Variables;
 public class CreateDualProblemService {
 
 	private final CreateVariableService createVariableService;
-	private final ProblemObjectiveConverter minimizationProblemConverter;
+	private final ProblemObjectiveConverter problemObjectiveConverter;
 	private final ConstraintConverter constraintConverter;
 
 	public CreateDualProblemService() {
 		this.createVariableService = new CreateVariableService();
-		this.minimizationProblemConverter = new ProblemObjectiveConverter();
+		this.problemObjectiveConverter = new ProblemObjectiveConverter();
 		this.constraintConverter = new ConstraintConverter();
 	}
 
 	public Problem create(Problem originalProblem) {
-		// Problem adaptedProblem = adaptProblem(originalProblem);
-		Problem adaptedProblem = originalProblem;
+		Problem adaptedProblem = adaptProblem(originalProblem);
+		// Problem adaptedProblem = originalProblem;
 
 		ObjectiveFunction originalObjectiveFunction = adaptedProblem.getObjectiveFunction();
-
-		message("-- ORIGINAL PROBLEM ADAPTED -- ").log();
-		message(adaptedProblem.toString()).line().log();
 
 		// Create new objective function
 
@@ -85,11 +80,10 @@ public class CreateDualProblemService {
 	}
 
 	private Problem adaptProblem(Problem originalProblem) {
-		if (originalProblem.getObjective() == MINIMIZATION) {
+		if (originalProblem.getObjective() == Objective.MINIMIZATION) {
 			ObjectiveFunction objectiveFunction = originalProblem.getObjectiveFunction();
 
 			List<Constraint> newConstraints = new ArrayList<>();
-
 			for (Constraint constraint : originalProblem.getConstraints()) {
 				if (constraint.getOperator() == Operator.LESS_EQUAL) {
 					constraint = constraintConverter.convert(constraint);
@@ -99,7 +93,7 @@ public class CreateDualProblemService {
 				newConstraints.add(constraint);
 			}
 
-			return new Problem(objectiveFunction, newConstraints, originalProblem.variables, originalProblem, false);
+			return new Problem(objectiveFunction, newConstraints, originalProblem.variables, originalProblem, true);
 		}
 		return originalProblem;
 	}

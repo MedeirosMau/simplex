@@ -32,9 +32,7 @@ class GreaterEqualProcessor implements ConstraintProcessor {
 	public void createConstraint(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint originalConstraint, Variables variables, boolean isDual) {
 		Constraint newConstraint = new Constraint(originalConstraint, EQUAL);
 		createNewSlackVariable(newObjectiveFunction, newConstraints, newConstraint, variables, isDual);
-		if (!isDual) {
-			createNewArtificialVariable(newObjectiveFunction, newConstraints, newConstraint, variables, isDual);
-		}
+		createNewArtificialVariable(newObjectiveFunction, newConstraints, newConstraint, variables, isDual);
 		newConstraints.add(newConstraint);
 	}
 
