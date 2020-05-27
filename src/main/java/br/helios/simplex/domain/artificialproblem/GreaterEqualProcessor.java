@@ -21,27 +21,30 @@ import br.helios.simplex.infrastructure.util.MathContextUtil;
 class GreaterEqualProcessor implements ConstraintProcessor {
 
 	private final CreateVariableService createVariableService;
+	private final ConstraintConverter constraintConverter;
 
 	public GreaterEqualProcessor() {
 		this.createVariableService = new CreateVariableService();
+		this.constraintConverter = new ConstraintConverter();
 	}
 
 	@Override
-	public void createConstraint(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint originalConstraint, Variables variables) {
+	public void createConstraint(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint originalConstraint, Variables variables, boolean isDual) {
 		Constraint newConstraint = new Constraint(originalConstraint, EQUAL);
-		createNewSlackVariable(newObjectiveFunction, newConstraints, newConstraint, variables);
-		createNewArtificialVariable(newObjectiveFunction, newConstraints, newConstraint, variables);
+		createNewSlackVariable(newObjectiveFunction, newConstraints, newConstraint, variables, isDual);
+		if (!isDual) {
+			createNewArtificialVariable(newObjectiveFunction, newConstraints, newConstraint, variables, isDual);
+		}
 		newConstraints.add(newConstraint);
 	}
 
-	private void createNewSlackVariable(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint newConstraint, Variables variables) {
-		Variable newSlackVariable = createVariableService.createSlackVariable(variables, newConstraint);
-		// newObjectiveFunction.addTerm(createTerm(0, newSlackVariable));
+	private void createNewSlackVariable(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint newConstraint, Variables variables, boolean isDual) {
+		Variable newSlackVariable = createVariableService.createSlackVariable(variables, newConstraint, isDual);
 		newConstraint.addTerm(createTerm(ONE.negate(MathContextUtil.MATH_CONTEXT), newSlackVariable));
 	}
 
-	private void createNewArtificialVariable(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint newConstraint, Variables variables) {
-		Variable newArtificialVariable = createVariableService.createArtificialVariable(variables, newConstraint);
+	private void createNewArtificialVariable(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint newConstraint, Variables variables, boolean isDual) {
+		Variable newArtificialVariable = createVariableService.createArtificialVariable(variables, newConstraint, isDual);
 		newObjectiveFunction.addTerm(getNewObjectiveFunctionTerm(newObjectiveFunction.getObjective(), newArtificialVariable));
 		newConstraint.addTerm(createTerm(ONE, newArtificialVariable));
 	}

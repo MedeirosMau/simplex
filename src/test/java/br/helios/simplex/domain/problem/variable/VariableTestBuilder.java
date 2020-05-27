@@ -57,9 +57,9 @@ public class VariableTestBuilder {
 		case ORIGINAL:
 			return new CreateVariableService().createOriginalVariable(name, variables);
 		case SLACK:
-			return new CreateVariableService().createSlackVariable(variables, CONSTRAINT);
+			return new CreateVariableService().createSlackVariable(variables, CONSTRAINT, false);
 		case ARTIFICIAL:
-			return new CreateVariableService().createArtificialVariable(variables, CONSTRAINT);
+			return new CreateVariableService().createArtificialVariable(variables, CONSTRAINT, false);
 		default:
 			throw new IllegalArgumentException("Invalid type");
 		}

@@ -4,7 +4,7 @@ import static br.helios.simplex.infrastructure.util.StringUtil.hasElement;
 
 public enum Operator {
 
-	LESS_EQUAL("<=", ">="), GREATER_EQUAL(">=", "<="), LESS("<", ">"), GREATER(">", "<"), EQUAL("=", "!="), NOT_EQUAL("!=", "=");
+	LESS_EQUAL("<=", ">="), GREATER_EQUAL(">=", "<="), LESS("<", ">"), GREATER(">", "<"), EQUAL("=", "="), NOT_EQUAL("!=", "!=");
 
 	private final String operator;
 	private final String invertedOperator;

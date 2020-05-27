@@ -41,7 +41,7 @@ public class Simplex {
 			}
 		}
 
-		Problem problem = new Problem(objectiveFunction, constraints, getVariables(), null);
+		Problem problem = new Problem(objectiveFunction, constraints, getVariables(), null, false);
 
 		message(" -- PROBLEM -- ").line().log();
 		message(problem.toString()).log();

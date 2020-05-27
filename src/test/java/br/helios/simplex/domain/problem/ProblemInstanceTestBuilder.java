@@ -140,6 +140,27 @@ public class ProblemInstanceTestBuilder {
 		return build(objectiveFunction, constraints);
 	}
 
+	/**
+	 * https://courses.lumenlearning.com/sanjacinto-finitemath1/chapter/reading-solving-standard-maximization-problems-using-the-simplex-method/
+	 */
+	public static Problem buildSimpleProblemD() {
+		String objectiveFunction = "max z = 1900x1 + 700x2 + 1000z";
+		List<String> constraints = new ArrayList<String>();
+		constraints.add("x1 + x2 + x3 <= 600");
+		constraints.add("14x2 + 40x3 <= 0");
+		return build(objectiveFunction, constraints);
+	}
+
+	public static Problem buildMinimizationProblemWithFiveTerms() {
+		String objectiveFunction = "min z = 4x1 + 2x2 + 5x3 -4x4 +2x5";
+		List<String> constraints = new ArrayList<String>();
+		constraints.add("x1 <= 50");
+		constraints.add("x2 + x3 >= 10");
+		constraints.add("x1 + x4 - x5 <= 100");
+		constraints.add("x4 + x5 = 30");
+		return build(objectiveFunction, constraints);
+	}
+
 	public static Problem build(String objectiveFunction, List<String> constraints) {
 		return ProblemTestBuilder.create(objectiveFunction, constraints).build();
 	}

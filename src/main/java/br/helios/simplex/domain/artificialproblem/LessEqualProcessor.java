@@ -23,13 +23,13 @@ class LessEqualProcessor implements ConstraintProcessor {
 	}
 
 	@Override
-	public void createConstraint(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint originalConstraint, Variables variables) {
-		createNewSlackVariable(newObjectiveFunction, newConstraints, originalConstraint, variables);
+	public void createConstraint(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint originalConstraint, Variables variables, boolean isDual) {
+		createNewSlackVariable(newObjectiveFunction, newConstraints, originalConstraint, variables, isDual);
 	}
 
-	private void createNewSlackVariable(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint originalConstraint, Variables variables) {
+	private void createNewSlackVariable(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint originalConstraint, Variables variables, boolean isDual) {
 		Constraint newConstraint = new Constraint(originalConstraint, EQUAL);
-		Variable newVariable = createVariableService.createSlackVariable(variables, newConstraint);
+		Variable newVariable = createVariableService.createSlackVariable(variables, newConstraint, isDual);
 		newObjectiveFunction.addTerm(createTerm(ZERO, newVariable));
 		newConstraint.addTerm(Term.createTerm(ONE, newVariable));
 		newConstraints.add(newConstraint);

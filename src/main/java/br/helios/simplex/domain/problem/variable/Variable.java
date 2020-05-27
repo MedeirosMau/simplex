@@ -8,6 +8,7 @@ import static java.lang.String.format;
 public class Variable {
 
 	public static final String FAKE_PREFIX = "x";
+	public static final String DUAL_PREFIX = "y";
 	public static final int UNDEFINED_ID = -1;
 
 	private int id = UNDEFINED_ID;

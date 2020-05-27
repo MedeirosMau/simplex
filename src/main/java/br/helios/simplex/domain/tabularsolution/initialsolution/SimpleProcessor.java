@@ -10,6 +10,8 @@ import java.util.List;
 import br.helios.simplex.domain.problem.Problem;
 import br.helios.simplex.domain.problem.variable.Variable;
 import br.helios.simplex.domain.problem.variable.Variables;
+import br.helios.simplex.domain.tabularsolution.DualTabularSolution;
+import br.helios.simplex.domain.tabularsolution.PrimalTabularSolution;
 import br.helios.simplex.domain.tabularsolution.SolutionVariable;
 import br.helios.simplex.domain.tabularsolution.TabularSolution;
 
@@ -32,7 +34,10 @@ class SimpleProcessor implements InitialSolutionProcessor {
 			solutionVariables.add(createSolutionVariable(variable, artificialProblem.variables));
 		}
 
-		return new TabularSolution(simplexTable, solutionVariables, artificialProblem.getObjective());
+		if (artificialProblem.isDual) {
+			return new DualTabularSolution(simplexTable, solutionVariables, artificialProblem.getObjective());
+		}
+		return new PrimalTabularSolution(simplexTable, solutionVariables, artificialProblem.getObjective());
 	}
 
 	private SolutionVariable createSolutionVariable(Variable variable, Variables variables) {

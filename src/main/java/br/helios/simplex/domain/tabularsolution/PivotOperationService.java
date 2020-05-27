@@ -18,12 +18,29 @@ public class PivotOperationService {
 		List<SolutionVariable> newSolutionVariables = new ArrayList<>(previousSolution.variables);
 
 		message("@ PIVOT OPERATION").line().log();
-		SolutionVariable basicVariableCandidate = previousSolution.getBasicVariableCandidate();
-		message("Basic candidate: " + basicVariableCandidate.toString()).line().log();
-		SolutionVariable nonBasicVariableCandidate = previousSolution.getNonBasicVariableCandidate(basicVariableCandidate);
-		if (nonBasicVariableCandidate == null) {
-			return previousSolution;
+
+		SolutionVariable basicVariableCandidate = null;
+		SolutionVariable nonBasicVariableCandidate = null;
+
+		if (previousSolution.isDual) {
+			nonBasicVariableCandidate = previousSolution.getNonBasicVariableCandidate(null);
+			message("Non Basic candidate: " + nonBasicVariableCandidate.toString()).line().log();
+			basicVariableCandidate = previousSolution.getBasicVariableCandidate(nonBasicVariableCandidate);
+			if (basicVariableCandidate == null) {
+				return previousSolution;
+			}
+			message("Basic candidate: " + basicVariableCandidate.toString()).line().log();
+		} else {
+			basicVariableCandidate = previousSolution.getBasicVariableCandidate(null);
+			message("Basic candidate: " + basicVariableCandidate.toString()).line().log();
+			nonBasicVariableCandidate = previousSolution.getNonBasicVariableCandidate(basicVariableCandidate);
+			if (nonBasicVariableCandidate == null) {
+				return previousSolution;
+			}
+			message("Non Basic candidate: " + nonBasicVariableCandidate.toString()).line().log();
 		}
+
+		message("Basic candidate: " + basicVariableCandidate.toString()).line().log();
 		message("Non Basic candidate: " + nonBasicVariableCandidate.toString()).line().log();
 
 		// Swap data of basic/non basic variables
@@ -72,6 +89,9 @@ public class PivotOperationService {
 			}
 		}
 
-		return new TabularSolution(newSimplexTable, newSolutionVariables, previousSolution.objective);
+		if (previousSolution.isDual) {
+			return new DualTabularSolution(newSimplexTable, newSolutionVariables, previousSolution.objective);
+		}
+		return new PrimalTabularSolution(newSimplexTable, newSolutionVariables, previousSolution.objective);
 	}
 }

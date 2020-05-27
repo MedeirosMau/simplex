@@ -26,13 +26,13 @@ class EqualProcessor implements ConstraintProcessor {
 	}
 
 	@Override
-	public void createConstraint(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint originalConstraint, Variables variables) {
-		createNewArtificialVariable(newObjectiveFunction, newConstraints, originalConstraint, variables);
+	public void createConstraint(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint originalConstraint, Variables variables, boolean isDual) {
+		createNewArtificialVariable(newObjectiveFunction, newConstraints, originalConstraint, variables, isDual);
 	}
 
-	private void createNewArtificialVariable(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint originalConstraint, Variables variables) {
+	private void createNewArtificialVariable(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint originalConstraint, Variables variables, boolean isDual) {
 		Constraint newConstraint = new Constraint(originalConstraint, EQUAL);
-		Variable newArtificialVariable = createVariableService.createArtificialVariable(variables, newConstraint);
+		Variable newArtificialVariable = createVariableService.createArtificialVariable(variables, newConstraint, isDual);
 		newObjectiveFunction.addTerm(getNewObjectiveFunctionTerm(newObjectiveFunction.getObjective(), newArtificialVariable));
 		newConstraint.addTerm(createTerm(ONE, newArtificialVariable));
 		newConstraints.add(newConstraint);

@@ -1,5 +1,6 @@
 package br.helios.simplex.domain.tabularsolution.initialsolution;
 
+import static br.helios.simplex.domain.problem.Objective.INVERTED_MINIMIZATION;
 import static br.helios.simplex.domain.tabularsolution.SolutionVariable.createVariable;
 import static br.helios.simplex.infrastructure.util.MathContextUtil.MATH_CONTEXT;
 import static java.math.BigDecimal.ZERO;
@@ -8,12 +9,12 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.helios.simplex.domain.problem.Objective;
 import br.helios.simplex.domain.problem.Problem;
 import br.helios.simplex.domain.problem.Term;
+import br.helios.simplex.domain.tabularsolution.DualTabularSolution;
+import br.helios.simplex.domain.tabularsolution.PrimalTabularSolution;
 import br.helios.simplex.domain.tabularsolution.SolutionVariable;
 import br.helios.simplex.domain.tabularsolution.TabularSolution;
-import br.helios.simplex.infrastructure.util.MathContextUtil;
 
 public class CreateSecondPhaseInitialSolutionService {
 
@@ -65,7 +66,9 @@ public class CreateSecondPhaseInitialSolutionService {
 
 					// Add solution variable
 
-					newSolutionVariables.add(createVariable(solutionVariable, realJ));
+					if (i == 0) {
+						newSolutionVariables.add(createVariable(solutionVariable, realJ));
+					}
 				} else {
 					newSimplexTable[i][realJ] = positionValue;
 				}
@@ -81,7 +84,7 @@ public class CreateSecondPhaseInitialSolutionService {
 			if (solutionVariable.isBasic) {
 				BigDecimal coefficientValue = newSimplexTable[0][solutionVariable.index];
 				if (coefficientValue.compareTo(ZERO) != 0) {
-					BigDecimal normalizer = coefficientValue.negate(MathContextUtil.MATH_CONTEXT);
+					BigDecimal normalizer = coefficientValue.negate(MATH_CONTEXT);
 					for (int j = 0; j < newSimplexTable[solutionVariable.tableLine].length; j++) {
 						BigDecimal value = newSimplexTable[solutionVariable.tableLine][j];
 						newSimplexTable[0][j] = (normalizer.multiply(value, MATH_CONTEXT)).add(newSimplexTable[0][j], MATH_CONTEXT);
@@ -90,6 +93,9 @@ public class CreateSecondPhaseInitialSolutionService {
 			}
 		}
 
-		return new TabularSolution(newSimplexTable, newSolutionVariables, Objective.INVERTED_MINIMIZATION);
+		if (firstPhaseProblem.isDual) {
+			return new DualTabularSolution(newSimplexTable, newSolutionVariables, INVERTED_MINIMIZATION);
+		}
+		return new PrimalTabularSolution(newSimplexTable, newSolutionVariables, INVERTED_MINIMIZATION);
 	}
 }

@@ -8,5 +8,5 @@ import br.helios.simplex.domain.problem.variable.Variables;
 
 public interface ConstraintProcessor {
 
-	void createConstraint(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint originalConstraint, Variables variables);
+	void createConstraint(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint originalConstraint, Variables variables, boolean isDual);
 }

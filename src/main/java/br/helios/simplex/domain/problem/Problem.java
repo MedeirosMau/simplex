@@ -10,12 +10,18 @@ public class Problem {
 	private final List<Constraint> constraints;
 	public final Variables variables;
 	public final Problem origin;
+	public final boolean isDual;
 
-	public Problem(ObjectiveFunction objectiveFunction, List<Constraint> constraints, Variables variables, Problem origin) {
+	public Problem(ObjectiveFunction objectiveFunction, List<Constraint> constraints, Variables variables, Problem origin, boolean isDual) {
 		this.objectiveFunction = objectiveFunction;
 		this.constraints = constraints;
 		this.variables = variables;
 		this.origin = origin;
+		this.isDual = isDual;
+	}
+
+	public Problem(ObjectiveFunction objectiveFunction, List<Constraint> constraints, Variables variables, Problem origin) {
+		this(objectiveFunction, constraints, variables, origin, origin != null ? origin.isDual : false);
 	}
 
 	public ObjectiveFunction getObjectiveFunction() {

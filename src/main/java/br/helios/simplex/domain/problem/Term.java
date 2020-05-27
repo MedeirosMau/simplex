@@ -66,6 +66,6 @@ public class Term {
 				coefficientStr = "-" + BIG_M;
 			}
 		}
-		return coefficientStr + variable.name;
+		return coefficientStr + variable.name + (variable.isArtificial ? "'" : "");
 	}
 }

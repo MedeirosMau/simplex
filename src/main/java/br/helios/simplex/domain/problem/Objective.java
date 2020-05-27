@@ -13,4 +13,11 @@ public enum Objective {
 	public String description() {
 		return description;
 	}
+
+	public Objective invert() {
+		if (this == MINIMIZATION) {
+			return MAXIMIZATION;
+		}
+		return MINIMIZATION;
+	}
 }
