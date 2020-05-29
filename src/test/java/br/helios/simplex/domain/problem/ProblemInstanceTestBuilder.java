@@ -44,19 +44,6 @@ public class ProblemInstanceTestBuilder {
 	}
 
 	/**
-	 * Hillier
-	 */
-	public static Problem buildProblemWithEquityConstraint() {
-		// z = 28, x1 = 5, x2 = 6
-		String objectiveFunction = "max z = 3x1 + 5x2";
-		List<String> constraints = new ArrayList<String>();
-		constraints.add("x1 <= 4");
-		constraints.add("2x2 <= 12");
-		constraints.add("3x1 + 2x2 = 18");
-		return build(objectiveFunction, constraints);
-	}
-
-	/**
 	 * https://www.oocities.org/vuumanj/BusinessAlgebra/SimplexMinimize.html
 	 */
 	public static Problem buildSimpleMinimizationProblemA() {

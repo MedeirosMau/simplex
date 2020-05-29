@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 import br.helios.simplex.domain.tabularsolution.TabularSolution;
+import br.helios.simplex.infrastructure.util.MathContextUtil;
 
 public class OutputData {
 
@@ -19,18 +20,6 @@ public class OutputData {
 		this.timestamp = timestamp;
 	}
 
-	public static OutputData message(BigDecimal[][] matrix) {
-		StringBuilder builder = new StringBuilder();
-		for (int i = 0; i < matrix.length; i++) {
-			builder.append("(" + i + ") ");
-			for (int j = 0; j < matrix[i].length; j++) {
-				builder.append(matrix[i][j] + " ");
-			}
-			builder.append("\n");
-		}
-		return new OutputData(builder.toString(), false);
-	}
-
 	public static OutputData message(TabularSolution tabularSolution) {
 		StringBuilder builder = new StringBuilder();
 		BigDecimal[][] simplexTable = tabularSolution.simplexTable;
@@ -38,16 +27,20 @@ public class OutputData {
 			builder.append("(" + i + ") ");
 			if (i == 0) {
 				builder.append(
-						tabularSolution.objective == INVERTED_MINIMIZATION || tabularSolution.objective == INVERTED_MAXIMIZATION ? "-z " : "z ");
+						fill(tabularSolution.objective == INVERTED_MINIMIZATION || tabularSolution.objective == INVERTED_MAXIMIZATION ? "-z " : "z"));
 			} else {
-				builder.append(tabularSolution.getVariableByTableLine(i).name() + " ");
+				builder.append(fill(tabularSolution.getVariableByTableLine(i).name()));
 			}
 			for (int j = 0; j < simplexTable[i].length; j++) {
-				builder.append(simplexTable[i][j] + " ");
+				builder.append(fill(simplexTable[i][j].round(MathContextUtil.MATH_CONTEXT_OUTPUT).toString()));
 			}
 			builder.append("\n");
 		}
 		return new OutputData(builder.toString(), false);
+	}
+
+	public static String fill(String originalMessage) {
+		return String.format("%-20s", originalMessage);
 	}
 
 	public static OutputData message(String message) {

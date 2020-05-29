@@ -1,5 +1,6 @@
 package br.helios.simplex.domain.problem;
 
+import static br.helios.simplex.infrastructure.util.MathContextUtil.MATH_CONTEXT_OUTPUT;
 import static java.lang.Double.MAX_VALUE;
 import static java.lang.String.valueOf;
 import static java.math.BigDecimal.ZERO;
@@ -58,7 +59,7 @@ public class Term {
 
 	@Override
 	public String toString() {
-		String coefficientStr = valueOf(coefficient);
+		String coefficientStr = valueOf(coefficient.round(MATH_CONTEXT_OUTPUT));
 		if (isBigM()) {
 			if (coefficient.compareTo(BIG_M_VALUE) >= 0) {
 				coefficientStr = "+" + BIG_M;

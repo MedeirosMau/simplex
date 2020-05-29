@@ -69,8 +69,13 @@ public class Constraint {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("(" + order + ") ");
-		for (Term term : terms) {
-			builder.append(term.toString() + " ");
+		for (int i = 0; i < terms.size(); i++) {
+			Term term = terms.get(i);
+			String termStr = term.toString();
+			if (i > 0 && term.getCoefficient().signum() >= 0) {
+				termStr = "+" + termStr;
+			}
+			builder.append(termStr + " ");
 		}
 		builder.append(operator.operator() + " " + constraintValue.toString());
 		return builder.toString();

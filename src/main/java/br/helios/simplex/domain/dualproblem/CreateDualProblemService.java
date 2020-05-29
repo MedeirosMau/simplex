@@ -85,11 +85,15 @@ public class CreateDualProblemService {
 
 			List<Constraint> newConstraints = new ArrayList<>();
 			for (Constraint constraint : originalProblem.getConstraints()) {
+
 				if (constraint.getOperator() == Operator.LESS_EQUAL) {
 					constraint = constraintConverter.convert(constraint);
-				} else if (constraint.getOperator() == Operator.EQUAL) {
-					constraint = new Constraint(constraint, Operator.GREATER_EQUAL);
 				}
+
+				/*
+				 * else if (constraint.getOperator() == Operator.EQUAL) { constraint = new
+				 * Constraint(constraint, Operator.GREATER_EQUAL); }
+				 */
 				newConstraints.add(constraint);
 			}
 

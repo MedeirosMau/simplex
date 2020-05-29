@@ -16,13 +16,11 @@ public abstract class TabularSolution {
 	public final List<SolutionVariable> variables;
 	public final Objective objective;
 	public boolean foundBestSolution;
-	public final boolean isDual;
 
-	public TabularSolution(BigDecimal[][] simplexTable, List<SolutionVariable> variables, Objective objective, boolean isDual) {
+	public TabularSolution(BigDecimal[][] simplexTable, List<SolutionVariable> variables, Objective objective) {
 		this.simplexTable = simplexTable;
 		this.variables = variables;
 		this.objective = objective;
-		this.isDual = isDual;
 	}
 
 	public abstract SolutionVariable getBasicVariableCandidate(SolutionVariable nonBasicCandidateVariable);

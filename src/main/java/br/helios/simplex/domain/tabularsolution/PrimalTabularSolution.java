@@ -11,7 +11,7 @@ import br.helios.simplex.domain.problem.Objective;
 public class PrimalTabularSolution extends TabularSolution {
 
 	public PrimalTabularSolution(BigDecimal[][] simplexTable, List<SolutionVariable> variables, Objective objective) {
-		super(simplexTable, variables, objective, false);
+		super(simplexTable, variables, objective);
 	}
 
 	@Override

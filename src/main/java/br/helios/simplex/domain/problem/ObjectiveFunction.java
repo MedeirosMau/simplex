@@ -72,8 +72,13 @@ public class ObjectiveFunction {
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
 		buffer.append(objective.description() + " z = ");
-		for (Term termo : terms) {
-			buffer.append(termo.toString() + " ");
+		for (int i = 0; i < terms.size(); i++) {
+			Term term = terms.get(i);
+			String termStr = term.toString();
+			if (i > 0 && term.getCoefficient().signum() >= 0) {
+				termStr = "+" + termStr;
+			}
+			buffer.append(termStr + " ");
 		}
 		return buffer.toString();
 	}

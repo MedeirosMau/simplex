@@ -4,7 +4,6 @@ import static br.helios.simplex.domain.problem.Objective.MINIMIZATION;
 import static br.helios.simplex.domain.problem.Operator.EQUAL;
 import static br.helios.simplex.domain.problem.Operator.GREATER_EQUAL;
 import static br.helios.simplex.domain.problem.Operator.LESS_EQUAL;
-import static br.helios.simplex.infrastructure.util.Dual.DUAL_ENABLED;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +37,7 @@ public class CreateArtificialProblemService {
 
 		for (int i = 0; i < originalProblem.getConstraints().size(); i++) {
 			Constraint originalConstraint = originalProblem.getConstraints().get(i);
-			if (shouldInvert(originalProblem, originalConstraint)) {
+			if (originalConstraint.getConstraintValue().signum() < 0) {
 				originalConstraint = negativeConstraintConverter.convert(originalConstraint);
 			}
 			ConstraintProcessor constraintProcessor = getConstraintProcessor(originalConstraint.getOperator());
@@ -50,11 +49,6 @@ public class CreateArtificialProblemService {
 		}
 
 		return new Problem(newObjectiveFunction, newConstraints, newVariables, originalProblem, originalProblem.isDual);
-	}
-
-	private boolean shouldInvert(Problem originalProblem, Constraint originalConstraint) {
-		return (!originalProblem.isDual && originalConstraint.getConstraintValue().signum() < 0)
-				|| (originalProblem.isDual && DUAL_ENABLED && originalConstraint.getConstraintValue().signum() > 0);
 	}
 
 	private ConstraintProcessor getConstraintProcessor(Operator constraintOperator) {

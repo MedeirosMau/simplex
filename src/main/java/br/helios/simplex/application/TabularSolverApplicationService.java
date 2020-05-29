@@ -22,6 +22,19 @@ public class TabularSolverApplicationService {
 
 	// TODO: dual
 	// TODO: sensitivity analysis
+	/*
+	 * dual só mantar o dual e pegar a solução dual do primal do tableau final e
+	 * também saber interepretar aí recursos escassos, abundantes e variáveis duais
+	 * associadas e analise de sensibilidade
+	 */
+
+	/*
+	 * análise de sensibilidade só precisa dos RHS mas se tu fizer dos coef da FO q
+	 * eu nem expliquei mas tem nos slides e foi tirado do H&L aí vai desmoralizar o
+	 * resto e é fácil tu fechar pegar o dual do tableau é trivial saber o lance de
+	 * escasso e abundadante basta ver o dual e também variáveis de folga podem dar
+	 * uma pista aí interpretação econômica
+	 */
 	public TabularSolution solve(Problem problem) {
 		message("-- ORIGINAL PROBLEM -- ").log();
 		message(problem.toString()).line().log();

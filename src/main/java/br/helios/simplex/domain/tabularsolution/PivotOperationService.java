@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.helios.simplex.infrastructure.util.Dual;
 import br.helios.simplex.infrastructure.util.MathContextUtil;
 
 public class PivotOperationService {
@@ -23,23 +22,13 @@ public class PivotOperationService {
 		SolutionVariable basicVariableCandidate = null;
 		SolutionVariable nonBasicVariableCandidate = null;
 
-		if (previousSolution.isDual) {
-			nonBasicVariableCandidate = previousSolution.getNonBasicVariableCandidate(null);
-			message("Non Basic candidate: " + nonBasicVariableCandidate.toString()).line().log();
-			basicVariableCandidate = previousSolution.getBasicVariableCandidate(nonBasicVariableCandidate);
-			if (basicVariableCandidate == null) {
-				return previousSolution;
-			}
-			message("Basic candidate: " + basicVariableCandidate.toString()).line().log();
-		} else {
-			basicVariableCandidate = previousSolution.getBasicVariableCandidate(null);
-			message("Basic candidate: " + basicVariableCandidate.toString()).line().log();
-			nonBasicVariableCandidate = previousSolution.getNonBasicVariableCandidate(basicVariableCandidate);
-			if (nonBasicVariableCandidate == null) {
-				return previousSolution;
-			}
-			message("Non Basic candidate: " + nonBasicVariableCandidate.toString()).line().log();
+		basicVariableCandidate = previousSolution.getBasicVariableCandidate(null);
+		message("Basic candidate: " + basicVariableCandidate.toString()).line().log();
+		nonBasicVariableCandidate = previousSolution.getNonBasicVariableCandidate(basicVariableCandidate);
+		if (nonBasicVariableCandidate == null) {
+			return previousSolution;
 		}
+		message("Non Basic candidate: " + nonBasicVariableCandidate.toString()).line().log();
 
 		// Swap data of basic/non basic variables
 
@@ -87,9 +76,6 @@ public class PivotOperationService {
 			}
 		}
 
-		if (previousSolution.isDual && Dual.DUAL_ENABLED) {
-			return new DualTabularSolution(newSimplexTable, newSolutionVariables, previousSolution.objective);
-		}
 		return new PrimalTabularSolution(newSimplexTable, newSolutionVariables, previousSolution.objective);
 	}
 }

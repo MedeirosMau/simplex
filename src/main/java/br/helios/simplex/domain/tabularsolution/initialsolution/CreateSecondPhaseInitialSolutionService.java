@@ -11,11 +11,9 @@ import java.util.List;
 
 import br.helios.simplex.domain.problem.Problem;
 import br.helios.simplex.domain.problem.Term;
-import br.helios.simplex.domain.tabularsolution.DualTabularSolution;
 import br.helios.simplex.domain.tabularsolution.PrimalTabularSolution;
 import br.helios.simplex.domain.tabularsolution.SolutionVariable;
 import br.helios.simplex.domain.tabularsolution.TabularSolution;
-import br.helios.simplex.infrastructure.util.Dual;
 
 public class CreateSecondPhaseInitialSolutionService {
 
@@ -94,9 +92,6 @@ public class CreateSecondPhaseInitialSolutionService {
 			}
 		}
 
-		if (firstPhaseProblem.isDual && Dual.DUAL_ENABLED) {
-			return new DualTabularSolution(newSimplexTable, newSolutionVariables, INVERTED_MINIMIZATION);
-		}
 		return new PrimalTabularSolution(newSimplexTable, newSolutionVariables, INVERTED_MINIMIZATION);
 	}
 }
