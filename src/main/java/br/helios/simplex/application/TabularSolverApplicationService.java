@@ -5,6 +5,7 @@ import static br.helios.simplex.infrastructure.io.OutputData.message;
 import br.helios.simplex.domain.artificialproblem.CreateArtificialProblemService;
 import br.helios.simplex.domain.dualproblem.CreateDualProblemService;
 import br.helios.simplex.domain.problem.Problem;
+import br.helios.simplex.domain.sensitivity.SensitivityAnalysisService;
 import br.helios.simplex.domain.tabularsolution.TabularSolution;
 import br.helios.simplex.domain.tabularsolution.TabularSolverService;
 
@@ -13,11 +14,13 @@ public class TabularSolverApplicationService {
 	private final CreateArtificialProblemService createArtificialProblemService;
 	private final TabularSolverService tabularSolverService;
 	private final CreateDualProblemService createDualProblemService;
+	private final SensitivityAnalysisService sensitivityAnalysisService;
 
 	public TabularSolverApplicationService() {
 		this.createArtificialProblemService = new CreateArtificialProblemService();
 		this.tabularSolverService = new TabularSolverService();
 		this.createDualProblemService = new CreateDualProblemService();
+		this.sensitivityAnalysisService = new SensitivityAnalysisService();
 	}
 
 	// TODO: dual
@@ -41,7 +44,9 @@ public class TabularSolverApplicationService {
 		Problem artificialProblem = createArtificialProblemService.create(problem);
 		message("-- ARTIFICIAL PROBLEM -- ").log();
 		message(artificialProblem.toString()).line().log();
-		return tabularSolverService.solve(artificialProblem);
+		TabularSolution tabularSolution = tabularSolverService.solve(artificialProblem);
+		sensitivityAnalysisService.analyse(tabularSolution, artificialProblem);
+		return tabularSolution;
 	}
 
 	public TabularSolution solveDual(Problem problem) {

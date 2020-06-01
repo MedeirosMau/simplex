@@ -20,10 +20,10 @@ public class TabularSolutionFormatter {
 		for (SolutionVariable variable : solution.variables) {
 			message(format(", %s = %s", variable.name(), variable.value(solution.simplexTable))).log();
 		}
-		message("\n\nFINAL TABLEAU:\n").line().log();
+		message("\n\n# FINAL TABLEAU:\n").line().log();
 		message(solution).line().log();
 
-		message("\nDUAL:\n").line().log();
+		message("# DUAL:\n").line().log();
 
 		int totalNonBasicVariables = solution.simplexTable.length - 1;
 		int initialIndex = solution.simplexTable[0].length - totalNonBasicVariables - 1;

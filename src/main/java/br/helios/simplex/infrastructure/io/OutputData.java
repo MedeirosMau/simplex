@@ -2,6 +2,7 @@ package br.helios.simplex.infrastructure.io;
 
 import static br.helios.simplex.domain.problem.Objective.INVERTED_MAXIMIZATION;
 import static br.helios.simplex.domain.problem.Objective.INVERTED_MINIMIZATION;
+import static java.lang.String.format;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -10,6 +11,8 @@ import br.helios.simplex.domain.tabularsolution.TabularSolution;
 import br.helios.simplex.infrastructure.util.MathContextUtil;
 
 public class OutputData {
+
+	public static final String INFINITY = "INFINITY";
 
 	private String message;
 	private boolean newLine;
@@ -40,7 +43,7 @@ public class OutputData {
 	}
 
 	public static String fill(String originalMessage) {
-		return String.format("%-20s", originalMessage);
+		return format("%-20s", originalMessage);
 	}
 
 	public static OutputData message(String message) {

@@ -4,6 +4,7 @@ import static br.helios.simplex.domain.problem.Objective.INVERTED_MAXIMIZATION;
 import static br.helios.simplex.domain.problem.Objective.INVERTED_MINIMIZATION;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,6 +22,23 @@ public abstract class TabularSolution {
 		this.simplexTable = simplexTable;
 		this.variables = variables;
 		this.objective = objective;
+	}
+
+	public int getConstraintsNum() {
+		return simplexTable.length - 1;
+	}
+
+	public int getOriginalVariablesNum() {
+		return simplexTable[0].length - 1 - getConstraintsNum();
+	}
+
+	public SolutionVariable getNonOriginalVariableFromConstraint(int constraintOrder) {
+		for (SolutionVariable variable : variables) {
+			if (variable.variable.constraintOrder == constraintOrder) {
+				return variable;
+			}
+		}
+		throw new IllegalArgumentException("No variables found");
 	}
 
 	public abstract SolutionVariable getBasicVariableCandidate(SolutionVariable nonBasicCandidateVariable);
@@ -61,6 +79,25 @@ public abstract class TabularSolution {
 			return value.negate(MathContextUtil.MATH_CONTEXT);
 		}
 		return value;
+	}
 
+	public List<SolutionVariable> getBasicVariables() {
+		List<SolutionVariable> basicVariables = new ArrayList<>();
+		for (SolutionVariable variable : variables) {
+			if (variable.isBasic) {
+				basicVariables.add(variable);
+			}
+		}
+		return basicVariables;
+	}
+
+	public List<SolutionVariable> getNonBasicVariables() {
+		List<SolutionVariable> nonBasicVariables = new ArrayList<>();
+		for (SolutionVariable variable : variables) {
+			if (!variable.isBasic) {
+				nonBasicVariables.add(variable);
+			}
+		}
+		return nonBasicVariables;
 	}
 }
