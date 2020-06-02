@@ -76,6 +76,10 @@ public class CreateSecondPhaseInitialSolutionService {
 			}
 		}
 
+		// Insert column for constraint with equality
+
+		// for ()
+
 		// Gaussian Elimination
 
 		for (int index = 0; index < newSolutionVariables.size(); index++) {

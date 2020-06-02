@@ -45,7 +45,7 @@ public class TabularSolverApplicationService {
 		message("-- ARTIFICIAL PROBLEM -- ").log();
 		message(artificialProblem.toString()).line().log();
 		TabularSolution tabularSolution = tabularSolverService.solve(artificialProblem);
-		sensitivityAnalysisService.analyse(tabularSolution, artificialProblem);
+		sensitivityAnalysisService.analyse(tabularSolution, problem);
 		return tabularSolution;
 	}
 
