@@ -1,6 +1,7 @@
 package br.helios.simplex.infrastructure.util;
 
 import static br.helios.simplex.infrastructure.util.MathContextUtil.MATH_CONTEXT;
+import static java.math.BigDecimal.ZERO;
 
 import java.math.BigDecimal;
 
@@ -31,6 +32,11 @@ public class MatrixUtil {
 		for (int i = 0; i < matrixData.length; i++) {
 			for (int j = 0; j < matrixData[i].length; j++) {
 				newMatrix[i][j] = new BigDecimal(matrixData[i][j], MATH_CONTEXT);
+				BigDecimal roundedValue = newMatrix[i][j].setScale(5, BigDecimal.ROUND_DOWN);
+				if (roundedValue.compareTo(ZERO) == 0) {
+					newMatrix[i][j] = ZERO;
+				}
+
 			}
 		}
 		return newMatrix;

@@ -6,6 +6,7 @@ import static br.helios.simplex.domain.problem.Term.createBigMTerm;
 import static br.helios.simplex.domain.problem.Term.createNegativeBigMTerm;
 import static br.helios.simplex.domain.problem.Term.createTerm;
 import static java.math.BigDecimal.ONE;
+import static java.math.BigDecimal.ZERO;
 
 import java.util.List;
 
@@ -38,6 +39,7 @@ class GreaterEqualProcessor implements ConstraintProcessor {
 
 	private void createNewSlackVariable(ObjectiveFunction newObjectiveFunction, List<Constraint> newConstraints, Constraint newConstraint, Variables variables, boolean isDual) {
 		Variable newSlackVariable = createVariableService.createSlackVariable(variables, newConstraint, isDual);
+		newObjectiveFunction.addTerm(createTerm(ZERO, newSlackVariable));
 		newConstraint.addTerm(createTerm(ONE.negate(MathContextUtil.MATH_CONTEXT), newSlackVariable));
 	}
 
