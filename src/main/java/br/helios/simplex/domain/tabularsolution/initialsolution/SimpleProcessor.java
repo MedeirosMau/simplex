@@ -33,7 +33,7 @@ class SimpleProcessor implements InitialSolutionProcessor {
 			solutionVariables.add(createSolutionVariable(variable, artificialProblem.variables));
 		}
 
-		return new PrimalTabularSolution(simplexTable, solutionVariables, artificialProblem.getObjective());
+		return new PrimalTabularSolution(simplexTable, solutionVariables, artificialProblem.getObjective(), artificialProblem);
 	}
 
 	private SolutionVariable createSolutionVariable(Variable variable, Variables variables) {

@@ -4,10 +4,10 @@ import static br.helios.simplex.infrastructure.io.OutputData.message;
 
 import br.helios.simplex.domain.artificialproblem.CreateArtificialProblemService;
 import br.helios.simplex.domain.dualproblem.CreateDualProblemService;
+import br.helios.simplex.domain.dualproblem.CreateDualTableService;
 import br.helios.simplex.domain.problem.Problem;
 import br.helios.simplex.domain.sensitivity.SensitivityAnalysisService;
 import br.helios.simplex.domain.tabularsolution.TabularSolution;
-import br.helios.simplex.domain.tabularsolution.TabularSolutionFormatter;
 import br.helios.simplex.domain.tabularsolution.TabularSolverService;
 
 public class TabularSolverApplicationService {
@@ -16,12 +16,14 @@ public class TabularSolverApplicationService {
 	private final TabularSolverService tabularSolverService;
 	private final CreateDualProblemService createDualProblemService;
 	private final SensitivityAnalysisService sensitivityAnalysisService;
+	private final CreateDualTableService createDualTableService;
 
 	public TabularSolverApplicationService() {
 		this.createArtificialProblemService = new CreateArtificialProblemService();
 		this.tabularSolverService = new TabularSolverService();
 		this.createDualProblemService = new CreateDualProblemService();
 		this.sensitivityAnalysisService = new SensitivityAnalysisService();
+		this.createDualTableService = new CreateDualTableService();
 	}
 
 	// TODO: dual
@@ -46,7 +48,7 @@ public class TabularSolverApplicationService {
 		message("-- ARTIFICIAL PROBLEM -- ").log();
 		message(artificialProblem.toString()).line().log();
 		TabularSolution tabularSolution = tabularSolverService.solve(artificialProblem);
-		TabularSolutionFormatter.formatDual(artificialProblem, tabularSolution);
+		tabularSolution.dualDataTable = createDualTableService.createDualTable(tabularSolution, artificialProblem);
 		sensitivityAnalysisService.analyse(tabularSolution, problem);
 		return tabularSolution;
 	}

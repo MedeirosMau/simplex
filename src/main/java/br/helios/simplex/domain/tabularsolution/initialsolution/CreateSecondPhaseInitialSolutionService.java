@@ -96,6 +96,6 @@ public class CreateSecondPhaseInitialSolutionService {
 			}
 		}
 
-		return new PrimalTabularSolution(newSimplexTable, newSolutionVariables, INVERTED_MINIMIZATION);
+		return new PrimalTabularSolution(newSimplexTable, newSolutionVariables, INVERTED_MINIMIZATION, firstPhaseProblem);
 	}
 }

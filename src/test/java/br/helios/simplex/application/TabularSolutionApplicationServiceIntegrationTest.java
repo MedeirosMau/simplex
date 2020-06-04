@@ -1,11 +1,14 @@
 package br.helios.simplex.application;
 
+import static br.helios.simplex.domain.dualproblem.DualDataTableTestHelper.containsData;
 import static br.helios.simplex.domain.problem.TabularSolutionTestHelper.assertSolution;
 import static java.util.Arrays.asList;
 
 import java.math.BigDecimal;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ErrorCollector;
 
 import br.helios.simplex.domain.problem.Problem;
 import br.helios.simplex.domain.problem.ProblemInstanceTestBuilder;
@@ -15,13 +18,19 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 
 	private static final BigDecimal TEST_ZERO = new BigDecimal("0.00000");
 
+	@Rule
+	public ErrorCollector collector = new ErrorCollector();
+
 	@Test
-	public void testSimpleProblemB() { // dual ok [1]
+	public void testSimpleProblemB() { // dual ok [2]
 		// execute
 		Problem problem = ProblemInstanceTestBuilder.buildSimpleProblemB();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
 		assertSolution(new BigDecimal("36.00000"), asList(new BigDecimal("2.00000"), new BigDecimal("6.00000")), solution, problem.variables);
+		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("1.00000"));
+		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("1.50000"));
+		containsData(solution.dualDataTable, new BigDecimal("2.00000"), TEST_ZERO);
 //		OBJ COEFFICIENT RANGES
 // 		VARIABLE         CURRENT        ALLOWABLE        ALLOWABLE
 //                   COEF          INCREASE         DECREASE
@@ -37,11 +46,14 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 	}
 
 	@Test
-	public void testSimpleProblemC() { // dual ok [1]
+	public void testSimpleProblemC() { // dual ok [2]
 		Problem problem = ProblemInstanceTestBuilder.buildSimpleProblemC();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
 		assertSolution(new BigDecimal("28.00000"), asList(new BigDecimal("5.00000"), new BigDecimal("6.00000")), solution, problem.variables);
+		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("0.40000"));
+		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("0.20000"));
+		containsData(solution.dualDataTable, new BigDecimal("2.00000"), TEST_ZERO);
 //        OBJ COEFFICIENT RANGES
 //		VARIABLE         CURRENT        ALLOWABLE        ALLOWABLE
 //		COEF          INCREASE         DECREASE
@@ -57,11 +69,14 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 	}
 
 	@Test
-	public void testSimpleProblemD() { // dual ok [1]
+	public void testSimpleProblemD() { // dual ok [2]
 		Problem problem = ProblemInstanceTestBuilder.buildSimpleProblemD();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
 		assertSolution(new BigDecimal("1140000.00000"), asList(new BigDecimal("600.00000"), TEST_ZERO, TEST_ZERO), solution, problem.variables);
+		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("1900.00000"));
+		containsData(solution.dualDataTable, TEST_ZERO, TEST_ZERO);
+
 //      OBJ COEFFICIENT RANGES
 //		VARIABLE         CURRENT        ALLOWABLE        ALLOWABLE
 //						 COEF           INCREASE         DECREASE
@@ -77,12 +92,14 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 	}
 
 	@Test
-	public void testSimpleMinimizationProblemA() { // dual ok [1]
+	public void testSimpleMinimizationProblemA() { // dual ok [2]
 		// execute
 		Problem problem = ProblemInstanceTestBuilder.buildSimpleMinimizationProblemA();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
 		assertSolution(new BigDecimal("-8.00000"), asList(new BigDecimal("4.00000"), TEST_ZERO), solution, problem.variables);
+		containsData(solution.dualDataTable, new BigDecimal("2.00000"), TEST_ZERO);
+		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("0.66667"));
 //        OBJ COEFFICIENT RANGES
 //		VARIABLE         CURRENT        ALLOWABLE        ALLOWABLE
 //						 COEF           INCREASE         DECREASE
@@ -97,12 +114,15 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 	}
 
 	@Test
-	public void testSimpleMinimizationProblemB() { // dual ok [1]
+	public void testSimpleMinimizationProblemB() { // dual ok [2]
 		// execute
 		Problem problem = ProblemInstanceTestBuilder.buildSimpleMinimizationProblemB();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
 		assertSolution(new BigDecimal("-11.33333"), solution);
+		containsData(solution.dualDataTable, new BigDecimal("5.33333"), TEST_ZERO);
+		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("0.66667"));
+		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("1.6667"));
 //        OBJ COEFFICIENT RANGES
 //		VARIABLE         CURRENT        ALLOWABLE        ALLOWABLE
 //						 COEF          INCREASE         DECREASE
@@ -119,12 +139,15 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 	}
 
 	@Test
-	public void testProblemWithEquityAndGreaterEqualConstraints() { // dual ok
+	public void testProblemWithEquityAndGreaterEqualConstraints() {
 		// execute
 		Problem problem = ProblemInstanceTestBuilder.buildProblemWithEquityAndGreaterEqualConstraints();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
 		assertSolution(new BigDecimal("5.25000"), solution);
+		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("0.50000"));
+		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("-1.10000"));
+		containsData(solution.dualDataTable, new BigDecimal("0.30000"), TEST_ZERO);
 
 		// ####################################### ERRO
 
@@ -149,6 +172,9 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
 		assertSolution(new BigDecimal("5.25000"), solution);
+		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("0.50000"));
+		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("-1.10000"));
+		containsData(solution.dualDataTable, new BigDecimal("0.30000"), TEST_ZERO);
 
 		// ####################################### ERRO
 
@@ -173,6 +199,9 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
 		assertSolution(new BigDecimal("0.66000"), solution);
+		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("-0.00175"));
+		containsData(solution.dualDataTable, new BigDecimal("12.00000"), TEST_ZERO);
+		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("-0.00150"));
 
 		// OBJ COEFFICIENT RANGES
 //		 VARIABLE         CURRENT        ALLOWABLE        ALLOWABLE
@@ -189,12 +218,15 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 	}
 
 	@Test
-	public void testMinimizationProblemWithGreaterEqualConstraintsB() { // dual ok, slack fora de ordem
+	public void testMinimizationProblemWithGreaterEqualConstraintsB() {
 		// execute
 		Problem problem = ProblemInstanceTestBuilder.buildMinimizationProblemWithGreaterEqualConstraintsB();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
 		assertSolution(new BigDecimal("36.00000"), solution);
+		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("2.00000"));
+		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("3.00000"));
+		containsData(solution.dualDataTable, new BigDecimal("2.00000"), TEST_ZERO);
 
 //        OBJ COEFFICIENT RANGES
 //		VARIABLE         CURRENT        ALLOWABLE        ALLOWABLE
@@ -212,12 +244,14 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 	}
 
 	@Test
-	public void testMinimizationProblemWithGreaterEqualConstraintsC() { // dual ok [1]
+	public void testMinimizationProblemWithGreaterEqualConstraintsC() { // dual ok [2]
 		// execute
 		Problem problem = ProblemInstanceTestBuilder.buildMinimizationProblemWithGreaterEqualConstraintsC();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
 		assertSolution(new BigDecimal("7.00000"), solution);
+		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("-0.20000"));
+		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("-0.60000"));
 
 //        OBJ COEFFICIENT RANGES
 //		VARIABLE         CURRENT        ALLOWABLE        ALLOWABLE
@@ -233,12 +267,16 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 	}
 
 	@Test
-	public void testMinimizationProblemWithFiveTerms() { // dual ok [1]
+	public void testMinimizationProblemWithFiveTerms() { // dual ok [2]
 		// execute
 		Problem problem = ProblemInstanceTestBuilder.buildMinimizationProblemWithFiveTerms();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
 		assertSolution(new BigDecimal("-100.00000"), solution);
+		containsData(solution.dualDataTable, new BigDecimal("50.00000"), TEST_ZERO);
+		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("-2.00000"));
+		containsData(solution.dualDataTable, new BigDecimal("70.00000"), TEST_ZERO);
+		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("4.00000"));
 
 		// ####################################### ERRO
 

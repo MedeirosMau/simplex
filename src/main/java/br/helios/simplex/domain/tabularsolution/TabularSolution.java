@@ -9,7 +9,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import br.helios.simplex.domain.dualproblem.DualDataTable;
 import br.helios.simplex.domain.problem.Objective;
+import br.helios.simplex.domain.problem.Problem;
 import br.helios.simplex.infrastructure.util.MathContextUtil;
 
 public abstract class TabularSolution {
@@ -18,11 +20,14 @@ public abstract class TabularSolution {
 	public final List<SolutionVariable> variables;
 	public final Objective objective;
 	public boolean foundBestSolution;
+	public final Problem problem;
+	public DualDataTable dualDataTable;
 
-	public TabularSolution(BigDecimal[][] simplexTable, List<SolutionVariable> variables, Objective objective) {
+	public TabularSolution(BigDecimal[][] simplexTable, List<SolutionVariable> variables, Objective objective, Problem problem) {
 		this.simplexTable = simplexTable;
 		this.variables = variables;
 		this.objective = objective;
+		this.problem = problem;
 	}
 
 	public int getConstraintsNum() {

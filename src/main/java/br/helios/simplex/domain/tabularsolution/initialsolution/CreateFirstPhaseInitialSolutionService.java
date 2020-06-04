@@ -34,7 +34,7 @@ public class CreateFirstPhaseInitialSolutionService implements InitialSolutionPr
 			solutionVariables.add(createSolutionVariable(variable, artificialProblem));
 		}
 
-		return new PrimalTabularSolution(simplexTable, solutionVariables, artificialProblem.getObjective());
+		return new PrimalTabularSolution(simplexTable, solutionVariables, artificialProblem.getObjective(), artificialProblem);
 	}
 
 	private SolutionVariable createSolutionVariable(Variable variable, Problem artificialProblem) {

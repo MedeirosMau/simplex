@@ -76,6 +76,6 @@ public class PivotOperationService {
 			}
 		}
 
-		return new PrimalTabularSolution(newSimplexTable, newSolutionVariables, previousSolution.objective);
+		return new PrimalTabularSolution(newSimplexTable, newSolutionVariables, previousSolution.objective, previousSolution.problem);
 	}
 }

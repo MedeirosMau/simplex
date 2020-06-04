@@ -7,11 +7,12 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import br.helios.simplex.domain.problem.Objective;
+import br.helios.simplex.domain.problem.Problem;
 
 public class PrimalTabularSolution extends TabularSolution {
 
-	public PrimalTabularSolution(BigDecimal[][] simplexTable, List<SolutionVariable> variables, Objective objective) {
-		super(simplexTable, variables, objective);
+	public PrimalTabularSolution(BigDecimal[][] simplexTable, List<SolutionVariable> variables, Objective objective, Problem problem) {
+		super(simplexTable, variables, objective, problem);
 	}
 
 	@Override
