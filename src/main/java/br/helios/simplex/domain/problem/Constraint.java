@@ -68,7 +68,7 @@ public class Constraint {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("(" + order + ") ");
+		// builder.append("(" + order + ") ");
 		for (int i = 0; i < terms.size(); i++) {
 			Term term = terms.get(i);
 			String termStr = term.toString();

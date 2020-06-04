@@ -71,7 +71,7 @@ public class ObjectiveFunction {
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
-		buffer.append(objective.description() + " z = ");
+		buffer.append(objective.description() + " ");
 		for (int i = 0; i < terms.size(); i++) {
 			Term term = terms.get(i);
 			String termStr = term.toString();

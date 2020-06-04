@@ -44,10 +44,11 @@ public class Problem {
 	public String toString() {
 		StringBuilder builder = new StringBuilder("\n");
 		builder.append("Objective function: " + objectiveFunction.toString() + "\n");
-		builder.append("Constraints:\n");
+		builder.append("st\n");
 		for (Constraint constraint : constraints) {
-			builder.append(constraint.toString() + "\n");
+			builder.append("\t" + constraint.toString() + "\n");
 		}
+		builder.append("end\n");
 		return builder.toString();
 	}
 }

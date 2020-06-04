@@ -6,6 +6,7 @@ import static br.helios.simplex.domain.problem.Objective.INVERTED_MINIMIZATION;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import br.helios.simplex.domain.problem.Objective;
@@ -29,7 +30,13 @@ public abstract class TabularSolution {
 	}
 
 	public int getOriginalVariablesNum() {
-		return simplexTable[0].length - 1 - getConstraintsNum();
+		int total = 0;
+		for (SolutionVariable variable : variables) {
+			if (variable.variable.isOriginal) {
+				total++;
+			}
+		}
+		return total;
 	}
 
 	public SolutionVariable getNonOriginalVariableFromConstraint(int constraintOrder) {
@@ -88,6 +95,12 @@ public abstract class TabularSolution {
 				basicVariables.add(variable);
 			}
 		}
+		return basicVariables;
+	}
+
+	public List<SolutionVariable> getBasicVariablesOrderedByTableLine() {
+		List<SolutionVariable> basicVariables = getBasicVariables();
+		Collections.sort(basicVariables, new SolutionVariableComparator());
 		return basicVariables;
 	}
 

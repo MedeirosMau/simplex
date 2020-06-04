@@ -7,6 +7,7 @@ import br.helios.simplex.domain.dualproblem.CreateDualProblemService;
 import br.helios.simplex.domain.problem.Problem;
 import br.helios.simplex.domain.sensitivity.SensitivityAnalysisService;
 import br.helios.simplex.domain.tabularsolution.TabularSolution;
+import br.helios.simplex.domain.tabularsolution.TabularSolutionFormatter;
 import br.helios.simplex.domain.tabularsolution.TabularSolverService;
 
 public class TabularSolverApplicationService {
@@ -45,6 +46,7 @@ public class TabularSolverApplicationService {
 		message("-- ARTIFICIAL PROBLEM -- ").log();
 		message(artificialProblem.toString()).line().log();
 		TabularSolution tabularSolution = tabularSolverService.solve(artificialProblem);
+		TabularSolutionFormatter.formatDual(artificialProblem, tabularSolution);
 		sensitivityAnalysisService.analyse(tabularSolution, problem);
 		return tabularSolution;
 	}

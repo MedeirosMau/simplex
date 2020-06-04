@@ -16,7 +16,7 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 	private static final BigDecimal TEST_ZERO = new BigDecimal("0.00000");
 
 	@Test
-	public void testSimpleProblemB() { // ok
+	public void testSimpleProblemB() { // dual ok [1]
 		// execute
 		Problem problem = ProblemInstanceTestBuilder.buildSimpleProblemB();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
@@ -37,7 +37,7 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 	}
 
 	@Test
-	public void testSimpleProblemC() {
+	public void testSimpleProblemC() { // dual ok [1]
 		Problem problem = ProblemInstanceTestBuilder.buildSimpleProblemC();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
@@ -57,7 +57,7 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 	}
 
 	@Test
-	public void testSimpleProblemD() {
+	public void testSimpleProblemD() { // dual ok [1]
 		Problem problem = ProblemInstanceTestBuilder.buildSimpleProblemD();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
@@ -77,7 +77,7 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 	}
 
 	@Test
-	public void testSimpleMinimizationProblemA() {
+	public void testSimpleMinimizationProblemA() { // dual ok [1]
 		// execute
 		Problem problem = ProblemInstanceTestBuilder.buildSimpleMinimizationProblemA();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
@@ -97,7 +97,7 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 	}
 
 	@Test
-	public void testSimpleMinimizationProblemB() {
+	public void testSimpleMinimizationProblemB() { // dual ok [1]
 		// execute
 		Problem problem = ProblemInstanceTestBuilder.buildSimpleMinimizationProblemB();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
@@ -119,7 +119,7 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 	}
 
 	@Test
-	public void testProblemWithEquityAndGreaterEqualConstraints() {
+	public void testProblemWithEquityAndGreaterEqualConstraints() { // dual ok
 		// execute
 		Problem problem = ProblemInstanceTestBuilder.buildProblemWithEquityAndGreaterEqualConstraints();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
@@ -189,7 +189,7 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 	}
 
 	@Test
-	public void testMinimizationProblemWithGreaterEqualConstraintsB() {
+	public void testMinimizationProblemWithGreaterEqualConstraintsB() { // dual ok, slack fora de ordem
 		// execute
 		Problem problem = ProblemInstanceTestBuilder.buildMinimizationProblemWithGreaterEqualConstraintsB();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
@@ -212,7 +212,7 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 	}
 
 	@Test
-	public void testMinimizationProblemWithGreaterEqualConstraintsC() {
+	public void testMinimizationProblemWithGreaterEqualConstraintsC() { // dual ok [1]
 		// execute
 		Problem problem = ProblemInstanceTestBuilder.buildMinimizationProblemWithGreaterEqualConstraintsC();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
@@ -233,7 +233,7 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 	}
 
 	@Test
-	public void testMinimizationProblemWithFiveTerms() {
+	public void testMinimizationProblemWithFiveTerms() { // dual ok [1]
 		// execute
 		Problem problem = ProblemInstanceTestBuilder.buildMinimizationProblemWithFiveTerms();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
