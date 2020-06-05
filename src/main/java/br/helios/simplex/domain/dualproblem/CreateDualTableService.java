@@ -35,11 +35,6 @@ public class CreateDualTableService {
 			Variable variable = basicVariables.get(j).variable;
 			Term term = artificialProblem.getObjectiveFunction().getTermByVariable(variable);
 			if (variable.isOriginal) {
-//				if (artificialProblem.getObjective() == MAXIMIZATION || artificialProblem.getObjective() == MINIMIZATION) {
-//					matrixC[0][j] = term.getCoefficient();
-//				} else {
-//					matrixC[0][j] = term.getCoefficient().negate();
-//				}
 				matrixC[0][j] = term.getCoefficient();
 
 			} else {
