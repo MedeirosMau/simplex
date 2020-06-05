@@ -5,6 +5,7 @@ import static br.helios.simplex.infrastructure.io.OutputData.message;
 import static java.math.BigDecimal.ZERO;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math3.linear.RealMatrix;
@@ -29,7 +30,7 @@ public class CreateDualTableService {
 		// Set matrix C
 		BigDecimal[][] matrixC = new BigDecimal[1][constraintsNum];
 
-		List<SolutionVariable> basicVariables = solution.getBasicVariablesOrderedByTableLine();
+		List<SolutionVariable> basicVariables = solution.getBasicVariables();
 
 		for (int j = 0; j < basicVariables.size(); j++) {
 			Variable variable = basicVariables.get(j).variable;
@@ -65,8 +66,60 @@ public class CreateDualTableService {
 		BigDecimal[][] dual = MatrixUtil.convert(realDualMatrix);
 
 		message(fill("Variable") + "\t\t\t" + fill("Slack") + "\t" + fill("Dual prices")).line().log();
-		for (int i = 0; i < basicVariables.size(); i++) {
-			SolutionVariable solutionVariable = basicVariables.get(i);
+
+		List<SolutionVariable> orderedBasicVariables = solution.getBasicVariablesOrderedByTableLine();
+
+		SolutionVariable[] variables = new SolutionVariable[basicVariables.size()];
+
+//		for (int index = 0; index < basicVariables.size(); index++) {
+//			SolutionVariable solutionVariable = basicVariables.get(index);
+//			boolean flag = false;
+//
+//			for (int i = 0; i < artificialProblem.getConstraints().size(); i++) {
+//				Constraint constraint = artificialProblem.getConstraints().get(i);
+//
+//				if (!solutionVariable.variable.isOriginal) {
+//					if (constraint.getTermByVariable(solutionVariable.variable) != null) {
+//						variables[i] = solutionVariable;
+//						flag = true;
+//						break;
+//					}
+//				}
+//			}
+//		}
+
+		List<SolutionVariable> ignored = new ArrayList<>();
+
+		for (int i = 0; i < artificialProblem.getConstraints().size(); i++) {
+			Constraint constraint = artificialProblem.getConstraints().get(i);
+
+			for (int index = 0; index < basicVariables.size(); index++) {
+				SolutionVariable solutionVariable = basicVariables.get(index);
+
+				if (ignored.contains(solutionVariable)) {
+					continue;
+				}
+
+				if (!solutionVariable.variable.isOriginal) {
+					if (constraint.getTermByVariable(solutionVariable.variable) != null) {
+						variables[i] = solutionVariable;
+						basicVariables.remove(index);
+						// ignored.add(solutionVariable);
+						break;
+					}
+				}
+
+				if (index == basicVariables.size() - 1 && variables[i] == null) {
+					variables[i] = basicVariables.get(0);
+					basicVariables.remove(0);
+					// ignored.add(basicVariables.get(i));
+				}
+			}
+
+		}
+
+		for (int i = 0; i < variables.length; i++) {
+			SolutionVariable solutionVariable = variables[i];
 			message(fill(solutionVariable.variable.toString()) + "\t").log();
 
 			BigDecimal slackValue = BigDecimal.ZERO;

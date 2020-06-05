@@ -121,7 +121,7 @@ public class ProblemInstanceTestBuilder {
 	public static Problem buildMinimizationProblemWithGreaterEqualConstraintsB() {
 		String objectiveFunction = "min z = 2x1 +10x2 + 8x3";
 		List<String> constraints = new ArrayList<String>();
-		constraints.add("x1 + x2 +x3 >= 6");
+		constraints.add("x1 + x2 + x3 >= 6");
 		constraints.add("x2 + 2x3 >= 8");
 		constraints.add("-x1 + 2x2 + 2x3 >= 4");
 		return build(objectiveFunction, constraints);
