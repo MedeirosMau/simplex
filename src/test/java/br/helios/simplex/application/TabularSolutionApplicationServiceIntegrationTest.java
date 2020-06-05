@@ -1,6 +1,7 @@
 package br.helios.simplex.application;
 
 import static br.helios.simplex.domain.dualproblem.DualDataTableTestHelper.containsData;
+import static br.helios.simplex.domain.dualproblem.DualDataTableTestHelper.containsDualPrices;
 import static br.helios.simplex.domain.problem.TabularSolutionTestHelper.assertSolution;
 import static java.util.Arrays.asList;
 
@@ -28,9 +29,13 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
 		assertSolution(new BigDecimal("36.00000"), asList(new BigDecimal("2.00000"), new BigDecimal("6.00000")), solution, problem.variables);
+
+		containsDualPrices(solution.dualDataTable, new BigDecimal("1.00000"), new BigDecimal("1.50000"), TEST_ZERO);
+
 		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("1.00000"));
 		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("1.50000"));
 		containsData(solution.dualDataTable, new BigDecimal("2.00000"), TEST_ZERO);
+
 //		OBJ COEFFICIENT RANGES
 // 		VARIABLE         CURRENT        ALLOWABLE        ALLOWABLE
 //                   COEF          INCREASE         DECREASE
@@ -51,9 +56,13 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
 		assertSolution(new BigDecimal("28.00000"), asList(new BigDecimal("5.00000"), new BigDecimal("6.00000")), solution, problem.variables);
+
+		containsDualPrices(solution.dualDataTable, new BigDecimal("0.40000"), new BigDecimal("0.20000"), TEST_ZERO);
+
 		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("0.40000"));
 		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("0.20000"));
 		containsData(solution.dualDataTable, new BigDecimal("2.00000"), TEST_ZERO);
+
 //        OBJ COEFFICIENT RANGES
 //		VARIABLE         CURRENT        ALLOWABLE        ALLOWABLE
 //		COEF          INCREASE         DECREASE
@@ -74,6 +83,9 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
 		assertSolution(new BigDecimal("1140000.00000"), asList(new BigDecimal("600.00000"), TEST_ZERO, TEST_ZERO), solution, problem.variables);
+
+		containsDualPrices(solution.dualDataTable, new BigDecimal("1900.00000"), TEST_ZERO);
+
 		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("1900.00000"));
 		containsData(solution.dualDataTable, TEST_ZERO, TEST_ZERO);
 
@@ -98,8 +110,12 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
 		assertSolution(new BigDecimal("-8.00000"), asList(new BigDecimal("4.00000"), TEST_ZERO), solution, problem.variables);
+
+		containsDualPrices(solution.dualDataTable, new BigDecimal("0.66667"), TEST_ZERO);
+
 		containsData(solution.dualDataTable, new BigDecimal("2.00000"), TEST_ZERO);
 		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("0.66667"));
+
 //        OBJ COEFFICIENT RANGES
 //		VARIABLE         CURRENT        ALLOWABLE        ALLOWABLE
 //						 COEF           INCREASE         DECREASE
@@ -120,9 +136,13 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
 		assertSolution(new BigDecimal("-11.33333"), solution);
+
+		containsDualPrices(solution.dualDataTable, new BigDecimal("0.66667"), new BigDecimal("1.6667"), TEST_ZERO);
+
 		containsData(solution.dualDataTable, new BigDecimal("5.33333"), TEST_ZERO);
 		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("0.66667"));
 		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("1.6667"));
+
 //        OBJ COEFFICIENT RANGES
 //		VARIABLE         CURRENT        ALLOWABLE        ALLOWABLE
 //						 COEF          INCREASE         DECREASE
@@ -145,6 +165,9 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
 		assertSolution(new BigDecimal("5.25000"), solution);
+
+		containsDualPrices(solution.dualDataTable, new BigDecimal("0.50000"), new BigDecimal("-1.10000"), TEST_ZERO);
+
 		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("0.50000"));
 		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("-1.10000"));
 		containsData(solution.dualDataTable, new BigDecimal("0.30000"), TEST_ZERO);
@@ -172,6 +195,9 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
 		assertSolution(new BigDecimal("5.25000"), solution);
+
+		containsDualPrices(solution.dualDataTable, new BigDecimal("0.50000"), new BigDecimal("-1.10000"), TEST_ZERO);
+
 		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("0.50000"));
 		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("-1.10000"));
 		containsData(solution.dualDataTable, new BigDecimal("0.30000"), TEST_ZERO);
@@ -199,6 +225,9 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
 		assertSolution(new BigDecimal("0.66000"), solution);
+
+		containsDualPrices(solution.dualDataTable, new BigDecimal("-0.00175"), new BigDecimal("-0.00150"), TEST_ZERO);
+
 		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("-0.00175"));
 		containsData(solution.dualDataTable, new BigDecimal("12.00000"), TEST_ZERO);
 		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("-0.00150"));
@@ -224,8 +253,11 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
 		assertSolution(new BigDecimal("36.00000"), solution);
-		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("2.00000"));
-		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("3.00000"));
+
+		containsDualPrices(solution.dualDataTable, new BigDecimal("-2.00000"), new BigDecimal("-3.00000"), TEST_ZERO);
+
+		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("-2.00000"));
+		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("-3.00000"));
 		containsData(solution.dualDataTable, new BigDecimal("2.00000"), TEST_ZERO);
 
 //        OBJ COEFFICIENT RANGES
@@ -250,6 +282,9 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
 		assertSolution(new BigDecimal("7.00000"), solution);
+
+		containsDualPrices(solution.dualDataTable, new BigDecimal("-0.20000"), new BigDecimal("-0.60000"));
+
 		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("-0.20000"));
 		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("-0.60000"));
 
@@ -273,6 +308,9 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
 		// verify
 		assertSolution(new BigDecimal("-100.00000"), solution);
+
+		containsDualPrices(solution.dualDataTable, TEST_ZERO, new BigDecimal("-2.00000"), TEST_ZERO, new BigDecimal("4.00000"));
+
 		containsData(solution.dualDataTable, new BigDecimal("50.00000"), TEST_ZERO);
 		containsData(solution.dualDataTable, TEST_ZERO, new BigDecimal("-2.00000"));
 		containsData(solution.dualDataTable, new BigDecimal("70.00000"), TEST_ZERO);

@@ -9,6 +9,7 @@ public class StringUtil {
 
 	public static final String DOT = ".";
 	public static final String COMA = ",";
+	public static final String EMPTY = "";
 
 	public static boolean moreThanOneChar(String text) {
 		return text.length() > 1;

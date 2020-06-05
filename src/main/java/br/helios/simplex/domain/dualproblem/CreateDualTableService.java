@@ -1,7 +1,5 @@
 package br.helios.simplex.domain.dualproblem;
 
-import static br.helios.simplex.domain.problem.Objective.MAXIMIZATION;
-import static br.helios.simplex.domain.problem.Objective.MINIMIZATION;
 import static br.helios.simplex.infrastructure.io.OutputData.fill;
 import static br.helios.simplex.infrastructure.io.OutputData.message;
 import static java.math.BigDecimal.ZERO;
@@ -37,11 +35,12 @@ public class CreateDualTableService {
 			Variable variable = basicVariables.get(j).variable;
 			Term term = artificialProblem.getObjectiveFunction().getTermByVariable(variable);
 			if (variable.isOriginal) {
-				if (artificialProblem.getObjective() == MAXIMIZATION || artificialProblem.getObjective() == MINIMIZATION) {
-					matrixC[0][j] = term.getCoefficient();
-				} else {
-					matrixC[0][j] = term.getCoefficient().negate();
-				}
+//				if (artificialProblem.getObjective() == MAXIMIZATION || artificialProblem.getObjective() == MINIMIZATION) {
+//					matrixC[0][j] = term.getCoefficient();
+//				} else {
+//					matrixC[0][j] = term.getCoefficient().negate();
+//				}
+				matrixC[0][j] = term.getCoefficient();
 
 			} else {
 				matrixC[0][j] = ZERO;
