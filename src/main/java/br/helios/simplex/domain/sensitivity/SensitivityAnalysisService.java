@@ -13,10 +13,10 @@ public class SensitivityAnalysisService {
 		this.rightHandSideAnalysis = new RightHandSideAnalysis();
 	}
 
-	public void analyse(TabularSolution tabularSolution, Problem problem) {
+	public void analyse(TabularSolution tabularSolution, Problem artificialProblem) {
 		message("\n\n----------------------------------------------").line().log();
 		message("    RANGES IN WHICH THE BASIS IS UNCHANGED    ").line().log();
 		message("----------------------------------------------").line().log();
-		rightHandSideAnalysis.analyse(tabularSolution, problem);
+		rightHandSideAnalysis.analyse(tabularSolution, artificialProblem);
 	}
 }

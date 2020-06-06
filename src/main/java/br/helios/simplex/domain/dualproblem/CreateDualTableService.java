@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.apache.commons.math3.linear.RealMatrix;
 
+import br.helios.simplex.domain.problem.BMatrix;
 import br.helios.simplex.domain.problem.Constraint;
 import br.helios.simplex.domain.problem.Problem;
 import br.helios.simplex.domain.problem.Term;
@@ -37,7 +38,6 @@ public class CreateDualTableService {
 			Term term = artificialProblem.getObjectiveFunction().getTermByVariable(variable);
 			if (variable.isOriginal) {
 				matrixC[0][j] = term.getCoefficient();
-
 			} else {
 				matrixC[0][j] = ZERO;
 			}
@@ -45,48 +45,15 @@ public class CreateDualTableService {
 
 		// Set matrix A
 
-		BigDecimal[][] matrixB = new BigDecimal[constraintsNum][constraintsNum];
-
-		for (int i = 0; i < constraintsNum; i++) {
-			Constraint constraint = artificialProblem.getConstraints().get(i);
-			for (int j = 0; j < basicVariables.size(); j++) {
-				SolutionVariable basicVariable = basicVariables.get(j);
-				Term term = constraint.getTermByVariable(basicVariable.variable);
-				if (term != null) {
-					matrixB[i][j] = term.getCoefficient();
-				} else {
-					matrixB[i][j] = ZERO;
-				}
-			}
-		}
-
-		RealMatrix realMatrixC = MatrixUtil.createRealMatrix(matrixC);
+		BigDecimal[][] matrixB = BMatrix.create(solution, artificialProblem);
 		RealMatrix realInverseMatrixB = MatrixUtil.inverse(matrixB);
+		RealMatrix realMatrixC = MatrixUtil.createRealMatrix(matrixC);
 		RealMatrix realDualMatrix = realMatrixC.multiply(realInverseMatrixB);
 		BigDecimal[][] dual = MatrixUtil.convert(realDualMatrix);
 
 		message(fill("Variable") + "\t\t\t" + fill("Slack") + "\t" + fill("Dual prices")).line().log();
 
-		List<SolutionVariable> orderedBasicVariables = solution.getBasicVariablesOrderedByTableLine();
-
 		SolutionVariable[] variables = new SolutionVariable[basicVariables.size()];
-
-//		for (int index = 0; index < basicVariables.size(); index++) {
-//			SolutionVariable solutionVariable = basicVariables.get(index);
-//			boolean flag = false;
-//
-//			for (int i = 0; i < artificialProblem.getConstraints().size(); i++) {
-//				Constraint constraint = artificialProblem.getConstraints().get(i);
-//
-//				if (!solutionVariable.variable.isOriginal) {
-//					if (constraint.getTermByVariable(solutionVariable.variable) != null) {
-//						variables[i] = solutionVariable;
-//						flag = true;
-//						break;
-//					}
-//				}
-//			}
-//		}
 
 		List<SolutionVariable> ignored = new ArrayList<>();
 
@@ -104,7 +71,6 @@ public class CreateDualTableService {
 					if (constraint.getTermByVariable(solutionVariable.variable) != null) {
 						variables[i] = solutionVariable;
 						basicVariables.remove(index);
-						// ignored.add(solutionVariable);
 						break;
 					}
 				}
@@ -112,7 +78,6 @@ public class CreateDualTableService {
 				if (index == basicVariables.size() - 1 && variables[i] == null) {
 					variables[i] = basicVariables.get(0);
 					basicVariables.remove(0);
-					// ignored.add(basicVariables.get(i));
 				}
 			}
 

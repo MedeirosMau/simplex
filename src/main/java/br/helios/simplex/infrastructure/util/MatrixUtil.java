@@ -45,4 +45,5 @@ public class MatrixUtil {
 	public static RealMatrix createRealMatrix(BigDecimal[][] matrix) {
 		return new Array2DRowRealMatrix(convert(matrix));
 	}
+
 }

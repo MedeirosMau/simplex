@@ -49,7 +49,7 @@ public class TabularSolverApplicationService {
 		message(artificialProblem.toString()).line().log();
 		TabularSolution tabularSolution = tabularSolverService.solve(artificialProblem);
 		tabularSolution.dualDataTable = createDualTableService.createDualTable(tabularSolution, artificialProblem);
-		sensitivityAnalysisService.analyse(tabularSolution, problem);
+		sensitivityAnalysisService.analyse(tabularSolution, artificialProblem);
 		return tabularSolution;
 	}
 

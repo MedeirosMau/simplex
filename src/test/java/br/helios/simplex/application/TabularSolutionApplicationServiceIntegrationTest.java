@@ -189,7 +189,7 @@ public class TabularSolutionApplicationServiceIntegrationTest {
 	}
 
 	@Test
-	public void testProblemWithEquityAndGreaterEqualAndNegativeConstraints() {
+	public void testProblemWithEquityAndGreaterEqualAndNegativeConstraints() { // erro as
 		// execute
 		Problem problem = ProblemInstanceTestBuilder.buildProblemWithEquityAndGreaterEqualAndNegativeConstraints();
 		TabularSolution solution = new TabularSolverApplicationService().solve(problem);
